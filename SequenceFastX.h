@@ -29,12 +29,14 @@ class SequenceFastX{
     SequenceFastX(const char* &f, const size_t pos, size_t size, std::string head);
     SequenceFastX(const SequenceFastX &seq);
 
-
     //Destructeur 
     virtual ~SequenceFastX() ;
 
     //my strdup()
     //const char * myStrDup (const char * s);
+
+    //cleaner
+    void clear();
 
     // SETTERS & GETTERS 
 
@@ -56,6 +58,7 @@ class SequenceFastX{
 
     //fichier mère
     const char * getFile() const;
+    void setFile(const char* &f);
 
     //position séquence
     const size_t getPosition() const;
@@ -67,10 +70,11 @@ class SequenceFastX{
 
     // Méthode calcul GC
 
+    // reverse sequence 
+    std::string seqReverse(const std::string &seq) const;
 
-    // Séquence complémentaire
-
-    //Séquence reverse
+    // complement sequence
+    std::string seqCompl(const std::string &seq) const;
 
 
 };

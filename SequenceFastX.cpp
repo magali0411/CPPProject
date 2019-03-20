@@ -20,7 +20,6 @@ char* myStrDup (const char* s){ //permet de faire une copie d'un tableau de char
     return res;
 }
 
-
 // Constructeur
 
 SequenceFastX::SequenceFastX(): m_seqName(NULL), m_file(NULL), m_pos_seq(0) {}
@@ -30,7 +29,7 @@ SequenceFastX::SequenceFastX(const char* &f, const size_t pos, size_t size, std:
 
     setHead(head);
     setSize(size);
-    m_file = myStrDup(f);
+    setFile(f);
 
 }
 
@@ -46,6 +45,17 @@ SequenceFastX::~SequenceFastX()
         delete [] m_file;
     }
 
+}
+
+//cleaner
+void SequenceFastX::clear()
+{
+    m_seqName=NULL;
+    m_file=NULL;
+    m_head = "";
+    m_size=0;
+    //m_pos_seq=0;
+    m_txGC = 0;
 }
 
 
@@ -109,10 +119,25 @@ void SequenceFastX::setSize(size_t size)
 
 }
 
+
+
 const char * SequenceFastX::getFile() const
 {
     return m_file;
 }
+
+void SequenceFastX::setFile(const char* &f)
+{
+
+    if (m_file){
+
+        delete [] m_file;
+    }
+
+    m_file = myStrDup(f);
+}
+
+
 
 const size_t SequenceFastX::getPosition() const
 {
@@ -175,15 +200,16 @@ string SequenceFastX::getSeq() const {
 
 }
 
-/*
-vector<char> SequenceFastX::seqCompl() const
+// complement sequence
+string SequenceFastX::seqCompl(const string &seq) const 
 {
 
-    size_t l = m_seq.size();
-    vector<char> res;
-    for (size_t i =0; i < l; i++)
-    {
-        switch(m_seq[i])
+    size_t size = seq.size();
+    string res;
+
+    for(size_t i=0; i<size ;i++) {
+
+        switch(seq[i])
         {
         case'A' :
             res.push_back('T') ;
@@ -201,29 +227,26 @@ vector<char> SequenceFastX::seqCompl() const
             res.push_back('C') ;
             break;
         default :
-            res.push_back('X');
+            res.push_back('-');
             break;
         }
-    }
-    for(int i(0); i < res.size() ; i ++)
-    {
-        cout << res[i] ;
-    }
+    }   
+
     return res;
 }
 
-vector<char> SequenceFastX::seqRev() const
+// Sequence reverse
+string SequenceFastX::seqReverse(const std::string &seq) const
 {
-    size_t l = m_seq.size();
-    vector<char> res;
-    for (size_t i =l; i > 0; i--)
+    size_t size = seq.size();
+    string rev;
+
+    for (size_t i=size; i > 0; i--)
     {
-        res.push_back(m_seq[i-1]);
+        rev += (seq[i-1]);
+
     }
-    for(int i(0); i < res.size() ; i ++)
-    {
-        cout << res[i] ;
-    }
-    return res;
-}*/
+    return rev;
+}
+
 

@@ -42,13 +42,12 @@ FastXFile::~FastXFile(){
         delete[] m_position;
     }
 }
-
-
 //operator <<
 ostream& operator<<(ostream &os, const FastXFile &f){
     f.toStream(os);
     return os;
 }
+
 
 //operateur par copie
 FastXFile &FastXFile::operator=(const FastXFile &f){ // & va chercher l'objet à l'adresse ne fait pas de copie 
@@ -61,7 +60,6 @@ FastXFile &FastXFile::operator=(const FastXFile &f){ // & va chercher l'objet à
         }
     return *this;
     } 
-
 
 // Getters & Setters 
 string FastXFile::getFormat() const 
@@ -97,8 +95,8 @@ void FastXFile::setFilename(const char * &f){
 	if (m_position){
 		delete[] m_position;
 		m_position = NULL;
-		m_nbSeq = 0;
     }
+    m_nbSeq = 0;
     m_filename= myStrDup(f);
     if (m_filename){
         myparse();
@@ -122,7 +120,8 @@ void FastXFile::toStream(ostream &os ) const{
 }
 
 void FastXFile::myparse(){
-	ifstream ifs(m_filename);
+
+	ifstream ifs(m_filename,ios_base::in);
 	if (!ifs){
 		throw "unable to open this file"; 
 	}
@@ -147,39 +146,50 @@ void FastXFile::myparse(){
 			}
 		}
 	}
+
 	if (c != '\n'){
 		throw string("error"); 
 	}else{
 
-		do{ 
+		if(m_format==1) 
+		{
+
+			do{ 
         //penser ajouter traitement pour verifier que ce soit bien des nucléotides/prots dans le encodedSequence
 			string s;
 			getline(ifs,s);
 			m_nbSeq += ((s[0] ==  '>') || (s[0] == ';'));
-		}
-		while (ifs);
-		
-		m_position = new size_t [m_nbSeq]; // tableau de la taille du nb de sequences 
-		m_nbSeq = 0 ;
-		ifs.clear();
-		ifs.seekg(0); // seeqg positionne le marqueur à la position entre ()
-		size_t p = ifs.tellg(); // recupere la position du marqueur dans le flux
-
-		do{
-			string s;
-			getline(ifs,s);
-			if ((s[0] ==  '>') || (s[0] == ';')){ 
-				m_position[m_nbSeq ++]= p; // le tableau a la position du numero de la sequence prend 
-                                    //la valeur p donc la position de debut de la sequence puis incremente de 1 le nb_seq
 			}
-			p = ifs.tellg();
+			while (ifs);
+		
+			m_position = new size_t [m_nbSeq]; // tableau de la taille du nb de sequences 
+			m_nbSeq = 0 ;
+			ifs.clear();
+			ifs.seekg(0); // seeqg positionne le marqueur à la position entre ()
+			size_t p = ifs.tellg(); // recupere la position du marqueur dans le flux
+
+			do{
+				string s;
+				getline(ifs,s);
+				if ((s[0] ==  '>') || (s[0] == ';')){ 
+					m_position[m_nbSeq ++]= p; // le tableau a la position du numero de la sequence prend 
+                                    //la valeur p donc la position de debut de la sequence puis incremente de 1 le nb_seq
+				}
+				p = ifs.tellg();
+			}
+        	while (ifs);
 		}
-        while (ifs);
 
-        //for(unsigned int i=0; i <= m_nbSeq; i++){
+		else if(m_format ==2)
+		{
 
-        		//cout << "Tableau à l'indice " << i <<": "<< m_position[i] << endl;
-        //}
+			cout << "FastaQ detected, format= " << m_format << endl;
+		}
+
+/*        for(unsigned int i=0; i <= m_nbSeq; i++){
+
+        	cout << "Tableau à l'indice " << i <<": "<< m_position[i] << endl;
+        }*/
 	}
 
 	ifs.close();
@@ -242,13 +252,13 @@ SequenceFastX* FastXFile::getSequence(size_t i) const{
 		throw "Sequence out of range";
 	} else {
 
-	string sequence; 
+	//string sequence; 
 	string header;
 	string line;
 	const char* name = myStrDup(m_filename);
 	size_t pos_debut = m_position[i];
 	size_t length(0);
-	SequenceFastX * seq(NULL);
+	SequenceFastX * seq;
 
 	ifstream ifs(m_filename,ios_base::in);
 
@@ -266,7 +276,7 @@ SequenceFastX* FastXFile::getSequence(size_t i) const{
             	if (line[i] != '/0') {
 
             		length ++;
-            		sequence +=line[i];
+            		//sequence +=line[i];
             	}
 
             }
@@ -283,9 +293,10 @@ SequenceFastX* FastXFile::getSequence(size_t i) const{
         
         if (m_format == 2 ){
 
-           	seq =  new SequenceFastX(name, pos_debut, length, header);
+           	seq = new SequenceFastX(name, pos_debut, length, header);
         }
 		ifs.close();
+		delete [] name;
 
 	}else {
 
