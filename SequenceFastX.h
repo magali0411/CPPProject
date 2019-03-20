@@ -6,16 +6,18 @@
 
 char* myStrDup (const char* s);
 
+class FastXFile;
+
 class SequenceFastX{
 
     // ATTRIBUTS
     protected :
     
     char* m_seqName;
-
+    const char* m_file;
     std::string m_head;
     size_t m_size;
-    std::string m_sequence;
+    const size_t m_pos_seq;
 
     float m_txGC;
 
@@ -24,12 +26,12 @@ class SequenceFastX{
 
     // Constructeur
     SequenceFastX();
-    SequenceFastX(std::string sequence, size_t size, std::string head);
+    SequenceFastX(const char* &f, const size_t pos, size_t size, std::string head);
     SequenceFastX(const SequenceFastX &seq);
 
 
     //Destructeur 
-    ~SequenceFastX() ;
+    virtual ~SequenceFastX() ;
 
     //my strdup()
     //const char * myStrDup (const char * s);
@@ -42,8 +44,7 @@ class SequenceFastX{
 
 
     //séquence nucléotidique
-    const std::string getSeq() const;
-    void setSeq(char* seq);
+    std::string getSeq() const;
 
     // Retourne les infos relatives à une séquence aka l'header
     std::string getHead() const;
@@ -53,9 +54,11 @@ class SequenceFastX{
     size_t getSize() const;
     void setSize(size_t size);
 
-    //sequence
-    //const char* getSeq() const;
-    //void setSeq(const char* &seq);
+    //fichier mère
+    const char * getFile() const;
+
+    //position séquence
+    const size_t getPosition() const;
 
     // Methodo
 

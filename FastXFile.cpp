@@ -3,6 +3,7 @@
 
 #include <cstring>
 #include <iostream>
+#include <fstream>
 using namespace std ;
 
 /*char FastXFile::operator[](size_t i) const {
@@ -244,6 +245,7 @@ SequenceFastX* FastXFile::getSequence(size_t i) const{
 	string sequence; 
 	string header;
 	string line;
+	const char* name = myStrDup(m_filename);
 	size_t pos_debut = m_position[i];
 	size_t length(0);
 	SequenceFastX * seq(NULL);
@@ -270,20 +272,19 @@ SequenceFastX* FastXFile::getSequence(size_t i) const{
             }
         }
 
-		cout << "sequence :"<< sequence << endl;
-		cout << "length :"<< length << endl;
+		//cout << "sequence :"<< sequence << endl;
+		//cout << "length :"<< length << endl;
 
 		if (m_format == 1) {
 
-        	seq = new SequenceFastA(sequence, length, header);
+        	seq = new SequenceFastA(name, pos_debut, length, header);
 
         } 
         
         if (m_format == 2 ){
 
-           	seq =  new SequenceFastX(sequence, length, header);
+           	seq =  new SequenceFastX(name, pos_debut, length, header);
         }
-
 		ifs.close();
 
 	}else {

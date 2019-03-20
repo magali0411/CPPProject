@@ -3,6 +3,7 @@ CXX = g++
 CXX_FLAGS = -Wall -ansi -pedantic 
 OUT = test
 FILE = sequence.fasta
+FILE2 = arabidopsis.fasta
 
 all : SequenceFastA.o SequenceFastX.o FastXFile.o main.o 
 	$(CXX) $(CXX_FLAGS) $^ -o $(OUT)

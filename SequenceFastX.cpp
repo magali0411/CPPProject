@@ -1,9 +1,9 @@
 #include <iostream>
 #include <cstring>
+#include <fstream>
 
 
 #include "SequenceFastX.h"
-//#include "FastXFile.h"
 
 using namespace std;
 
@@ -20,6 +20,21 @@ char* myStrDup (const char* s){ //permet de faire une copie d'un tableau de char
     return res;
 }
 
+
+// Constructeur
+
+SequenceFastX::SequenceFastX(): m_seqName(NULL), m_file(NULL), m_pos_seq(0) {}
+    
+SequenceFastX::SequenceFastX(const char* &f, const size_t pos, size_t size, std::string head) : m_seqName(NULL), m_pos_seq(pos)
+{
+
+    setHead(head);
+    setSize(size);
+    m_file = myStrDup(f);
+
+}
+
+
 // Destructeur
 SequenceFastX::~SequenceFastX()
 { 
@@ -27,34 +42,30 @@ SequenceFastX::~SequenceFastX()
         delete[] m_seqName;
     }
 
-}
-
-// Constructeur
-
-SequenceFastX::SequenceFastX(): m_seqName(NULL){}
-    
-SequenceFastX::SequenceFastX(std::string sequence, size_t size, std::string head)
-{
-
-    setHead(head);
-    setSize(size);
-    m_sequence = sequence;
+    if(m_file){
+        delete [] m_file;
+    }
 
 }
+
 
 // Constructeur par copie
-SequenceFastX::SequenceFastX(const SequenceFastX &seq){
+SequenceFastX::SequenceFastX(const SequenceFastX &seq) : m_pos_seq(seq.m_pos_seq)
+{
     if (m_seqName){
 
         delete[] m_seqName;
     }
 
-    m_seqName=myStrDup(seq.m_seqName);
+    if(m_file) {
+        delete[] m_file;
+    }
+
+    m_seqName= myStrDup(seq.m_seqName);
     m_size = seq.m_size;
     m_head = seq.m_head; 
+    m_file = myStrDup(seq.m_file);
 }
-
-
 
 // Getters & Setter
 
@@ -98,6 +109,16 @@ void SequenceFastX::setSize(size_t size)
 
 }
 
+const char * SequenceFastX::getFile() const
+{
+    return m_file;
+}
+
+const size_t SequenceFastX::getPosition() const
+{
+    return m_pos_seq;
+}
+
 // position
 // const char* SequenceFastX::getSeq() const
 // {
@@ -117,8 +138,42 @@ void SequenceFastX::toStream(ostream &os) const{
         os << "File: " << "<no name>" << endl;
     }
     os << "Informations: " << m_head << endl;
+    os <<"Fichier mère: " << m_file << endl;
 }
 
+// Sequence
+string SequenceFastX::getSeq() const {
+
+    ifstream ifs(m_file,ios_base::in);
+    string sequence;
+
+    if(ifs) {
+
+        ifs.seekg(m_pos_seq);
+        string line;
+        getline(ifs, line);
+        while(getline(ifs,line)&& line[0] != '>' && line[0] != ';' && line[0] != '@'){
+
+            for(size_t i = 0; i<line.size(); i++) {
+
+
+                if (line[i] != '/0') {
+
+                    sequence +=line[i];
+                }
+
+            }
+        }
+
+
+    } else{
+
+        throw string("File has been moved or removed.");
+    }
+
+    return sequence;
+
+}
 
 /*
 vector<char> SequenceFastX::seqCompl() const

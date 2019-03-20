@@ -15,7 +15,7 @@ class SequenceFastA : public SequenceFastX
 
 	//Constructeur 
 	SequenceFastA();
-	SequenceFastA(std::string sequence, size_t size, std::string head);
+	SequenceFastA(const char* &f, const size_t pos, size_t size, std::string head);
 
 	// Constructeur par copie
 	SequenceFastA(const SequenceFastA &seq);
