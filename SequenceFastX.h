@@ -4,10 +4,6 @@
 #include<iostream>
 
 
-char* myStrDup (const char* s);
-// Check not nucleotide
-bool notNucl(std::string &s);
-
 class FastXFile;
 
 class SequenceFastX{

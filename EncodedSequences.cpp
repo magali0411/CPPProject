@@ -67,7 +67,7 @@ char EncodedSequences::encode(char c) const {
     ? 2 :
     (((c=='c')||(c=='C'))
     ? 3:
-    (mrand48()&3)))));
+    (lrand48()&3)))));
 }
 
 char EncodedSequences::decode(char c) const {

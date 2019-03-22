@@ -4,45 +4,11 @@
 
 
 #include "SequenceFastX.h"
+#include "utilities.h"
 
 using namespace std;
 
-//myStrDup
-char* myStrDup (const char* s){ //permet de faire une copie d'un tableau de char
-    char* res=NULL;
-    if(s){
-        size_t n = strlen(s)+1; //taille du tableau s +1
-        res = new char[n]; // initialise le tableau avec la taille recup
-        for (size_t i=0; i<n; ++i){
-            res[i]=s[i];
-        } 
-    }
-    return res;
-}
 
-// Not nucl
-bool notNucl(string &s)
-{
-
-    bool notnucl = false;
-    for(size_t i = 0; i<s.size(); i++) {
-
-        if (s[i] != 'A' && s[i] != 'T' && s[i] != 'C' && s[i] != 'G' && s[i] != '-' && s[i] != 'N' ) {
-            cout << "char divergent :" << s[i] << endl;
-
-            if(s[i] == '\n' && s[i] == ' ' && s[i] == '\0') {
-                notnucl = true;
-                cout << "String not seq :"<< s << endl;
-                break;
-            }
-
-        }
-
-    }
-    cout << " valeur notnucl :" <<notnucl << endl;
-    return notnucl;
-
-}
 
 // Constructeur
 
@@ -206,7 +172,7 @@ string SequenceFastX::getSeq() const {
             for(size_t i = 0; i<line.size(); i++) {
 
 
-                if (line[i] != '/0') {
+                if (line[i] != '\0') {
 
                     sequence +=line[i];
                 }

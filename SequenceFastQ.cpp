@@ -4,6 +4,7 @@
 
 
 #include "SequenceFastQ.h"
+#include "utilities.h"
 
 using namespace std;
 
@@ -65,13 +66,13 @@ string SequenceFastQ::getSeq() {
         		}
         	}
 
-        	else if (getline(ifs,line) && notNucl(line)) 
+        	else if (getline(ifs,line) && StringNotSeq(line)) 
         	{
 
         		for(size_t i = 0; i<line.size(); i++) {
 
 
-               		if (line[i] != '/0') {
+               		if (line[i] != '\0') {
 
                     	score +=line[i];
                 	}
@@ -80,13 +81,13 @@ string SequenceFastQ::getSeq() {
 
         	}
 
-        	else if (getline(ifs,line) && !notNucl(line))
+        	else if (getline(ifs,line) && !StringNotSeq(line))
         	{
 
             	for(size_t i = 0; i<line.size(); i++) {
 
 
-                	if (line[i] != '/0') {
+                	if (line[i] != '\0') {
 
                     	sequence +=line[i];
                 	}

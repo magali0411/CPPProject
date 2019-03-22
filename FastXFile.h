@@ -7,16 +7,25 @@
 
 class SequenceFastX;
 
+
+
+
 class FastXFile {
+    public :
+    enum Format {
+        UNDEF,
+        FASTA,
+        FASTQ
+    };
     private:
         const char* m_filename;
-        int m_format;
+        Format m_format;
         size_t* m_position;
         size_t m_nbSeq;
 
         //Méthodes internes
         void myparse();
-        void setFormat(int format);
+        void setFormat(Format format);
         bool seqCheck(size_t posheader) const;
 
 

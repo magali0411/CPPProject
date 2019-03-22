@@ -1,41 +1,66 @@
 #VAR
 CXX = g++ 
 CXX_FLAGS = -std=c++11 -Wall -ansi -pedantic 
-OUT = test
+LDFLAGS =
+PROG = test
 FILE = sequence.fasta
 FILE2 = arabidopsis.fasta
 FILE3 = sequence.fastq
 FILE4 = sequence2.fastq
 
-all : SequenceFastA.o SequenceFastQ.o SequenceFastX.o FastXFile.o main.o 
-	$(CXX) $(CXX_FLAGS) $^ -o $(OUT)
+#  EncodedSequences.cpp
+SOURCES = \
+  FastXFile.cpp \
+  main.cpp \
+  SequenceFastA.cpp \
+  SequenceFastQ.cpp \
+  SequenceFastX.cpp \
+  utilities.cpp
+
+#  EncodedSequences.h
+
+HEADERS = \
+  FastXFile.h \
+  SequenceFastA.h \
+  SequenceFastQ.h \
+  SequenceFastX.h \
+  utilities.h
+
+OBJ=$(SOURCES:.cpp=.o)
+
+all : $(PROG)
+
+$(PROG): $(OBJ)
+	$(CXX) $(LDFLAGS) $^ -o $@
 
 #Compilation
 
-SequenceFastA.o : SequenceFastA.cpp SequenceFastA.h
-	$(CXX) $(CXX_FLAGS) -c  SequenceFastA.cpp -o $@
+.SUFFIXES: .cpp .h .o
 
-SequenceFastQ.o : SequenceFastQ.cpp SequenceFastQ.h
-	$(CXX) $(CXX_FLAGS) -c  SequenceFastQ.cpp -o $@
+.cpp.o:
+	$(CXX) $(CXX_FLAGS) -c  $< -c
 
+EncodedSequences.o: EncodedSequences.cpp EncodedSequences.h
 
-SequenceFastX.o : SequenceFastX.cpp SequenceFastX.h
-	$(CXX) $(CXX_FLAGS) -c  SequenceFastX.cpp -o $@
+FastXFile.o: FastXFile.cpp FastXFile.h SequenceFastX.h SequenceFastA.h utilities.h
 
+main.o: main.cpp FastXFile.h SequenceFastX.h SequenceFastA.h
 
-FastXFileX.o : FichierFastX.cpp FichierFastX.h
-	$(CXX) $(CXX_FLAGS) -c  FichierFastX.cpp -o $@
+SequenceFastA.o: SequenceFastA.cpp SequenceFastA.h SequenceFastX.h
 
-main.o : main.cpp
-	$(CXX) $(CXX_FLAGS) -c main.cpp -o $@
+SequenceFastQ.o: SequenceFastQ.cpp SequenceFastQ.h SequenceFastX.h
 
+SequenceFastX.o: SequenceFastX.cpp SequenceFastX.h
+
+utilities.o: utilities.cpp utilities.h
 
 #Execution
 run :
-	./$(OUT) $(FILE)
+	./$(PROG) $(FILE)
 
 # Suppression des .o
 
 clear :
-	rm -f *.o $(OUT)
+	rm -f $(OBJ)
+	rm -f $(PROG)
 
