@@ -116,25 +116,3 @@ string SequenceFastQ::getSeq() {
     }
 
 }
-
-bool SequenceFastQ::notNucl(string &s) const
-{
-
-	string line = s;
-    bool notnucl = true;
-
-	for(size_t i = 0; i<line.size(); i++) {
-
-
-        if (line[i] != 'A' || line[i] != 'T' || line[i] != 'C' || line[i] != 'G' || line[i] != '-' || line[i] != 'N') {
-
-        	notnucl = false;
-            break;
-
-        }
-
-    }
-
-    return notnucl;
-
-}

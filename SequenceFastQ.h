@@ -30,8 +30,6 @@ class SequenceFastQ : public SequenceFastX
 	//Specialisation getSeq
 	std::string getSeq();
 
-	// Check not nucleotide
-	bool notNucl(std::string &s) const;
 
 }
 ;

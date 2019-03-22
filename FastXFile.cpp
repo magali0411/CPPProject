@@ -155,7 +155,7 @@ void FastXFile::myparse(){
 		{
 
 			do{ 
-        //penser ajouter traitement pour verifier que ce soit bien des nucléotides/prots dans le encodedSequence
+        	
 			string s;
 			getline(ifs,s);
 			m_nbSeq += ((s[0] ==  '>') || (s[0] == ';'));
@@ -165,15 +165,14 @@ void FastXFile::myparse(){
 			m_position = new size_t [m_nbSeq]; // tableau de la taille du nb de sequences 
 			m_nbSeq = 0 ;
 			ifs.clear();
+			string s;
 			ifs.seekg(0); // seeqg positionne le marqueur à la position entre ()
 			size_t p = ifs.tellg(); // recupere la position du marqueur dans le flux
 
 			do{
-				string s;
 				getline(ifs,s);
 				if ((s[0] ==  '>') || (s[0] == ';')){ 
-					m_position[m_nbSeq ++]= p; // le tableau a la position du numero de la sequence prend 
-                                    //la valeur p donc la position de debut de la sequence puis incremente de 1 le nb_seq
+					m_position[m_nbSeq ++]= p; 
 				}
 				p = ifs.tellg();
 			}
@@ -183,10 +182,33 @@ void FastXFile::myparse(){
 		else if(m_format ==2)
 		{
 
-			cout << "FastaQ detected, format= " << m_format << endl;
-		}
+			do{ 
+			string s;
+			getline(ifs,s);
+			m_nbSeq += (s[0] ==  '@');
+			}
+			while (ifs);
 
-/*        for(unsigned int i=0; i <= m_nbSeq; i++){
+
+			m_position = new size_t [m_nbSeq]; // tableau de la taille du nb de sequences 
+			m_nbSeq = 0 ;
+			ifs.clear();
+			string s;
+			ifs.seekg(0); // On rembobine le document
+			size_t p = ifs.tellg(); // On recupere la position 
+
+			// On remplit le tableau
+			do{
+				getline(ifs,s);
+				if (s[0] ==  '@'){ 
+					m_position[m_nbSeq ++]= p; // le tableau a la position du numero de la sequence prend 
+                                    //la valeur p donc la position de debut de la sequence puis incremente de 1 le nb_seq
+				}
+				p = ifs.tellg();
+			}
+        	while (ifs);
+		}
+/*        for(unsigned int i=0; i < m_nbSeq; i++){
 
         	cout << "Tableau à l'indice " << i <<": "<< m_position[i] << endl;
         }*/
@@ -227,6 +249,7 @@ bool FastXFile::seqCheck(size_t posheader) const{
 			else if (c == '@' && m_format == 2) 
 			{
 				format = true;
+				cout << "good file " << endl;
 
 			} else {
 				throw string("Format not supported");
@@ -246,9 +269,9 @@ bool FastXFile::seqCheck(size_t posheader) const{
 SequenceFastX* FastXFile::getSequence(size_t i) const{
 
 	//cout << "position de la séquence : " << m_pos[i] << endl;
-
+	--i;
 	// verif
-	if (i >= m_nbSeq) {
+	if (i > m_nbSeq) {
 		throw "Sequence out of range";
 	} else {
 
@@ -265,27 +288,39 @@ SequenceFastX* FastXFile::getSequence(size_t i) const{
 
 	if(ifs && seqCheck(pos_debut)){
 
+
 		ifs.seekg(pos_debut);
 		getline(ifs, line);
 		header = line;
 
-        while(getline(ifs,line)&& line[0] != '>' && line[0] != ';' && line[0] != '@'){
+		//cout << line << endl;
+		//cout<< notNucl(line) << endl;
 
-        	for(size_t i = 0; i<line.size(); i++) {
+        while(getline(ifs,line) && line[0] != '>' && line[0] != ';' && line[0] != '@'){
 
-            	if (line[i] != '/0') {
+        	if (!notNucl(line)) {
 
-            		length ++;
+        		cout << line << endl;
+
+        		for(size_t i = 0; i<line.size(); i++) {
+
+            		if (line[i] != ' ' && line[i] != '\0') {
+
+            			length ++;
             		//sequence +=line[i];
+            		}
+
             	}
 
-            }
+        	}
         }
+
+        cout << "Longueur de séquence :" << length << endl;
 
 		//cout << "sequence :"<< sequence << endl;
 		//cout << "length :"<< length << endl;
 
-		if (m_format == 1) {
+		/*if (m_format == 1) {
 
         	seq = new SequenceFastA(name, pos_debut, length, header);
 
@@ -294,7 +329,7 @@ SequenceFastX* FastXFile::getSequence(size_t i) const{
         if (m_format == 2 ){
 
            	seq = new SequenceFastX(name, pos_debut, length, header);
-        }
+        }*/
 		ifs.close();
 		delete [] name;
 

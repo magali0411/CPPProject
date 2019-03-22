@@ -1,10 +1,11 @@
 #VAR
 CXX = g++ 
-CXX_FLAGS = -Wall -ansi -pedantic 
+CXX_FLAGS = -std=c++11 -Wall -ansi -pedantic 
 OUT = test
 FILE = sequence.fasta
 FILE2 = arabidopsis.fasta
 FILE3 = sequence.fastq
+FILE4 = sequence2.fastq
 
 all : SequenceFastA.o SequenceFastQ.o SequenceFastX.o FastXFile.o main.o 
 	$(CXX) $(CXX_FLAGS) $^ -o $(OUT)
@@ -31,7 +32,7 @@ main.o : main.cpp
 
 #Execution
 run :
-	./$(OUT) $(FILE3)
+	./$(OUT) $(FILE)
 
 # Suppression des .o
 

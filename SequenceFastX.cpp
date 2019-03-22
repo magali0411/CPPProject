@@ -20,6 +20,30 @@ char* myStrDup (const char* s){ //permet de faire une copie d'un tableau de char
     return res;
 }
 
+// Not nucl
+bool notNucl(string &s)
+{
+
+    bool notnucl = false;
+    for(size_t i = 0; i<s.size(); i++) {
+
+        if (s[i] != 'A' && s[i] != 'T' && s[i] != 'C' && s[i] != 'G' && s[i] != '-' && s[i] != 'N' ) {
+            cout << "char divergent :" << s[i] << endl;
+
+            if(s[i] == '\n' && s[i] == ' ' && s[i] == '\0') {
+                notnucl = true;
+                cout << "String not seq :"<< s << endl;
+                break;
+            }
+
+        }
+
+    }
+    cout << " valeur notnucl :" <<notnucl << endl;
+    return notnucl;
+
+}
+
 // Constructeur
 
 SequenceFastX::SequenceFastX(): m_seqName(NULL), m_file(NULL), m_pos_seq(0) {}
