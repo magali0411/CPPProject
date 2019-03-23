@@ -122,29 +122,31 @@ const char* FastXFile::getFileName() const{
 
 //ToStream
 void FastXFile::toStream(ostream &os ) const{
-    os<< "fichier: " << (m_filename ? m_filename: "pas de fichier") << endl ;
-	os << "le fichier contient: " << m_nbSeq  <<" sequences" << endl;
+    os<< "File: " << (m_filename ? m_filename: "no name") << endl ;
+	os << "File contains: " << m_nbSeq  <<" sequences" << endl;
 }
 
+// Fonction Buffer
 static void updateBuffer(ifstream &ifs, char *buffer, size_t bufsize, size_t &p, size_t &nb) {
-	cerr << "Current position p = " << p << ", nb = " << nb;
+	cerr << "Current position p = " << p << ", nb = " << nb << endl;
 	if (p < nb) {
 		cerr << "buffer[" << p << "] = '" << buffer[p] << "'" << endl;
 	}
 	if (++p >= nb) {
-		ifs.read(buffer, bufsize);
-		nb = ifs.gcount();
+		ifs.read(buffer, bufsize); // On recharge le buffer
+		nb = nb + ifs.gcount(); // prend la valeur du nombre de c du buffer précédent
 		p = 0;
-	}
+	} // Si on arrive à la fin du buffer
 	cerr << "Now, p = " << p << " and nb = " << nb << endl;
 }
 
+// Fonction error
 static void file_error_message(const char *m_filename, size_t ligne, size_t colonne, char c) {
 	stringstream str;
-	str << "Fichier '" << m_filename
-		<< "', ligne " << ligne
-		<< ", colonne " << colonne
-		<< " : Format non reconnu (caractère '" << c << "')";
+	str << "File '" << m_filename
+		<< "', line " << ligne
+		<< ", column " << colonne
+		<< " : Format not supported(char '" << c << "' not allowed)";
 	throw str.str();
 }
 
@@ -160,6 +162,8 @@ void FastXFile::myparse(){
 
 	size_t nb = 0, p = 0;
 	updateBuffer(ifs, buffer, BufferSize, p, nb);
+
+	//Parcours du fichier
 	size_t ligne = 0, colonne = 0;
 
 	char c = '\n';
@@ -171,25 +175,27 @@ void FastXFile::myparse(){
 		} else {
 			++colonne;
 		}
-		updateBuffer(ifs, buffer, BufferSize, p, nb);
+		updateBuffer(ifs, buffer, BufferSize, p, nb); // On vérifie que le next char est tjs dans le buffer
 	} // On saute les espaces au début du fichier
 
 	if (p) { 
 		c = buffer[p - 1];
-	} //si p n'est pas au début du buffer, on initialise le char c au début
+	} //si p n'est pas au début du buffer, on initialise le char c à la position d'avant
     
-	if (p < nb){
-		if (c == '\n') {
+	if (p < nb){ // p dans le buffer
+		if (c == '\n') { // l'entête commence en début de ligne
 			if ((buffer[p] == '>')||(buffer[p] == ';')) { 
 				setFormat(FASTA);
 			} else {
 				if (buffer[p] == '@') {
 					setFormat(FASTQ);
 				} else {
+					cerr << "Unknown format." << endl;
 					file_error_message(m_filename, ligne + 1, colonne + 1, buffer[p]);
 				}
 			}
 		} else {
+			cerr << "Problem in file format." << endl;
 			file_error_message(m_filename, ligne + 1, colonne, c);
 		}
 	}
@@ -197,23 +203,23 @@ void FastXFile::myparse(){
 	while ((p < nb) && (buffer[p] != '\n')) {
 		++colonne;
 		updateBuffer(ifs, buffer, BufferSize, p, nb);
-	}
+	} // On saute l'entête, fin de ligne
+
 	++ligne;
 	colonne = 0;
+
 
 	if (p < nb) {
 		if(m_format == FASTA) {
 			do {
-				c = buffer[p];
-				//string s;
-				//getline(ifs,s);
-				//m_nbSeq += ((s[0] ==  '>') || (s[0] == ';'));
-				if (!isSpace(c) || !isNucl(c)) {
+				c = buffer[p+1];
+				if (!isSpace(c) && !isNucl(c)) { 
 					if (colonne) {
 						file_error_message(m_filename, ligne + 1, colonne + 1, c);
 					} else {
 						if ((c == '>') || (c == ';')) {
 							++m_nbSeq;
+
 							while (c != '\n') {
 								updateBuffer(ifs, buffer, BufferSize, p, nb);
 								++colonne;
@@ -406,10 +412,10 @@ void FastXFile::myparse(){
 				} while (p < nb);
 			}
 		}
-        for(unsigned int i=0; i < m_nbSeq; i++){
+        /*for(unsigned int i=0; i < m_nbSeq; i++){
 
         	cout << "Tableau à l'indice " << i <<": "<< m_position[i] << endl;
-        }
+        }*/
 	}
 	ifs.close();
 }
@@ -437,12 +443,12 @@ bool FastXFile::seqCheck(size_t posheader) const{
 			c = ifs.peek();
 
 			// fastA
-			if (m_format == 1 && (c == ';' || c == '>'))
+			if (m_format == FASTA && (c == ';' || c == '>'))
 			{
 				format = true;
 			}
 			//fastQ
-			else if (c == '@' && m_format == 2) 
+			else if (c == '@' && m_format == FASTQ) 
 			{
 				format = true;
 
