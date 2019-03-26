@@ -56,7 +56,7 @@ utilities.o: utilities.cpp utilities.h
 
 #Execution
 run :
-	./$(PROG) $(FILE4)
+	./$(PROG) $(FILE3)
 
 # Suppression des .o
 

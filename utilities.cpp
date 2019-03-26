@@ -3,8 +3,9 @@
 
 using namespace std;
 
+
 bool isSpace(char c) {
-	return ((c == ' ') || (c == '\t') || (c == '\r') || (c == '\n'));
+	return ((c == ' ') || (c == '\t') || (c == '\r') || (c == '\n') || (c=='\0'));
 }
 
 // Char is nucl
