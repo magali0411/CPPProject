@@ -158,6 +158,7 @@ void FastXFile::myparse(){
 	if (!ifs){
 		throw "unable to open this file"; 
 	}
+
 	const int BufferSize = 1024; 
 	char buffer[BufferSize];
 
@@ -172,18 +173,15 @@ void FastXFile::myparse(){
 // Rajouter une fonction checkFormat //
 //////////////////////////////////////
 
-
-// ICI nous avons le buffer à la au début de la première ligne (en théorie : l'entête)
 	colonne = 0;
 	colonne = 0;
 	char c = buffer[p];
-	int etat = 0; // On parce l'entete
+	int etat = 0; // 0 : entete
 
 
 	if(p < nb) {
 		string entete = "";
 		size_t l1 = 0, l2 = 0;
-
 
 		do {
 
@@ -198,10 +196,10 @@ void FastXFile::myparse(){
 				updateBuffer(ifs, buffer, BufferSize, p, nb); 
 			} // On saute les espaces au début du fichier
 //////////////////////////////////////////////////////
-/*			cout << "char en debut de ligne " << c << buffer[p] << endl;
+			cout << "char en debut de ligne " << c << buffer[p] << endl;
 			cout << "current state " << etat << endl;
 			cout << "line : " << ligne << "col : " << colonne << endl;
-*/
+
 			c = buffer[p];
 
 			switch (etat) {		
@@ -227,12 +225,14 @@ void FastXFile::myparse(){
 							break;
 						}
 
+						cout << "ENTETE: " << entete << endl;
+
+
 					} else {
 						file_error_message(m_filename, ligne + 1, colonne + 1, c);
 					}
 					//c = buffer[p+1];
 
-					//cout << "entete " << entete << endl;
 					//cout << "etat" << etat << endl;
 					break;		
 					//cout << "etat :" << etat << ", buffer : " << buffer[p] << "c :" << c << endl;
@@ -248,7 +248,7 @@ void FastXFile::myparse(){
 						} else { // Pas de sequence*/
 							if (c == '+') { // Si c'est le séparateur fastq
 								etat = 2;
-							break;
+								break;
 								//++colonne;
 							}if (c == '>') { // Si c'est le début fasta
 								etat = 0;
@@ -268,15 +268,15 @@ void FastXFile::myparse(){
 							++colonne;
 							updateBuffer(ifs, buffer, BufferSize, p, nb);
 						} 
-						cout << "lenght :" << l1 << endl;
+						cout << "LENGTH :" << l1 << endl;
 						if((p< nb) && buffer[p] == '\n') 
 						{
 							++ligne;
 							colonne = 0;
-							c = buffer[p+1];
+							//c = buffer[p+1]; Modif ici
 
 						} else {
-							if (isNucl(c))
+							if (isSpace(c)) // modification ici (isNucl)
 							{
 								etat = 4;
 							}
@@ -289,9 +289,9 @@ void FastXFile::myparse(){
 				case 2: {
 					size_t cpt = 1;
 					c = buffer[p+1];
-					while ((p < nb) && (c != '\n') ){
+					while ((p < nb) && (buffer[p] != '\n') ){
 						if(isSpace(c)) {
-							while ((p < nb) && (isSpace(buffer[p]))){ 
+/*							while ((p < nb) && (isSpace(buffer[p]))){ 
 								if (buffer[p] == '\n') {
 									++ligne;
 									colonne = 0;
@@ -299,12 +299,12 @@ void FastXFile::myparse(){
 									++colonne;
 								}
 							updateBuffer(ifs, buffer, BufferSize, p, nb); 
-							}
-							c = buffer[p+1];
-							++ colonne;
+							}*/
+							break;
+							//c = buffer[p+1];
 							//cout << "detectée char :" << c << endl;
 						} else {
-							if (c != entete[cpt]) {
+							if (buffer[p+1] != entete[cpt]) { //modif
 							//cout << "buf : " << buffer[p] << " +1 : " << buffer[p+1] << "ent : " << entete[cpt] << endl;
 							file_error_message(m_filename, ligne + 1, colonne + 1, c);
 							}
@@ -318,12 +318,11 @@ void FastXFile::myparse(){
 					if(p < nb && (buffer[p+1] == '\n')) {
 						updateBuffer(ifs, buffer, BufferSize, p, nb);
 						c = buffer[p+1];
-						++ligne;
-						colonne = 0;
+						//++ligne;
+						//colonne = 0;
 						etat = 3;
 					}
 					else {
-						cout <<" 2" << endl;
 
 						file_error_message(m_filename, ligne + 1, colonne + 1, c);
 					}
@@ -340,26 +339,18 @@ void FastXFile::myparse(){
 						//c = buffer[p+1];
 						++ colonne;
 						score += buffer[p];
-
-						if(isNucl(buffer[p]))
-						{
-							++l2;
-						}else {
-							--l2;
-						}
-
+						l2 += !isSpace(buffer[p]);
 						updateBuffer(ifs, buffer, BufferSize, p, nb);
 						
 					}
-					//cout << " score : " << score << endl;
-					//cout << "Finale length :" << l2 << endl;
+					cout << "SCORE : " << score << endl;
+					cout << "FINALE LENGTH :" << l2 << endl;
 					
 					if (buffer[p] == '\n') {
-						++ligne;
-						colonne = 0;
+						//++ligne;
+						//colonne = 0;
 						updateBuffer(ifs, buffer, BufferSize, p, nb);
 						c = buffer[p+1];
-
 						etat = 0;
 					} else {
 						c = ' ';
@@ -376,7 +367,9 @@ void FastXFile::myparse(){
 
 				}
 				case 4: {
-					cout << "end of file" << endl;
+					cout << "-----------------------" << endl;
+					cout << "END OF FILE" << endl;
+					cout << "-----------------------" << endl;
 					end = true;
 					break;
 				}
@@ -391,9 +384,11 @@ void FastXFile::myparse(){
 						}
 						updateBuffer(ifs, buffer, BufferSize, p, nb); 
 					} // On saute les espaces 
-					//--p;
-					//--colonne;
+					--p; // modif
+					--colonne;
 					etat = 0;
+					l1 = l2 = 0; 
+
 					//break;				}
 
 				}
@@ -419,7 +414,9 @@ void FastXFile::myparse(){
 	size_t offset = 0; // recupere la position du marqueur dans le flux
 	p = nb = 0;
 	etat = 0; 
+	end = false;
 	size_t l = 0;
+	c = ' ';
 
 	do {
 ///////////// Saut espace A chauqe début de boucle //////////
@@ -430,52 +427,78 @@ void FastXFile::myparse(){
 				c = buffer[p+1];
 			} // C toujours égal au début de ligne
 		} 
+
+		l = 0;
+
 //////////////////////////////////////////////////////
 		//c = buffer[p];
 		cout << "Etat en début de boucle : " << etat << endl;
 		cout << "Char en début de boucle : " << buffer[p] << endl;
-		cout << "char début de ligne : " << c << endl;
+		//cout << "char début de ligne : " << c << endl;
 
 		switch (etat) { // On ne refait pas toute nos vérifs pour alléger le code
 			case 0: {
-				m_position[m_nbSeq++] = offset;
-				l = 0;
-				while ((p < nb) && (buffer[p] != '\n')) {
-					updateBuffer(ifs, buffer, BufferSize, p, nb);
-					++offset;
+
+				if (buffer[p] == '@' || buffer[p] =='>' || buffer[p]==';') {
+
+					m_position[m_nbSeq++] = offset;
+					l = 0;
+					while ((p < nb) && (buffer[p] != '\n')) {
+						updateBuffer(ifs, buffer, BufferSize, p, nb);
+						++offset;
+					}
+					if((p < nb) && (buffer[p])== '\n'){
+						etat = 1;
+					} else {
+						cout << "this is why" << endl;
+						c = ' ';
+						etat = 4;
+						break;
+					}
+					break;
+
 				}
-				if((p < nb) && (buffer[p])== '\n'){
-					etat = 1;
-					c = buffer[p+1];
-				}
-				break;
 			}
 			case 1: {
-				if (!isSpace(buffer[p]) && !isNucl(buffer[p])) {
-					if (c == '+') {
+
+				if (!isNucl(buffer[p])) {
+
+					if (buffer[p] == '+') {
 						etat = 2;
+						break;
 					}
-					if (c == '>') {
+					if (buffer[p] == '>') {
 						etat = 0;
+						break;
+					} else {
+
+						etat = 4;
 					}
 
 				} else {
-					l += isNucl(buffer[p]);
+					while ((p < nb) && (buffer[p] != '\n')) {
+						l += isNucl(buffer[p]);
+						updateBuffer(ifs, buffer, BufferSize, p, nb);
+					}
+
 				}
-				cout << "Longueur de sequence " << m_nbSeq << " : " << l << endl;
 				break;
 			}
 			case 2: {
 				while ((p < nb) && (buffer[p] != '\n')) {
+					if(isSpace(buffer[p])) {
+						break;
+					}
+
 					updateBuffer(ifs, buffer, BufferSize, p, nb);
 					++offset;
 				}
-/*				if (p<nb && ( buffer[p] == '\n'))
+				if (p<nb && ( buffer[p] == '\n'))
 				{
-					//c = buffer[p+1];
-					etat = 2;
-				}	*/	
-				etat = 3;			
+					updateBuffer(ifs, buffer, BufferSize, p, nb);
+					etat = 3;
+
+				} 
 				break;
 			}
 			case 3: {
@@ -483,26 +506,32 @@ void FastXFile::myparse(){
 					l -= !isSpace(buffer[p]);
 					updateBuffer(ifs, buffer, BufferSize, p, nb);
 					++offset;
-					cout << "valeur de l : " << l << endl;
-
 				}
-
+				cout << "LENGTH : " << l << endl;
 
 				while ((p < nb) && (isSpace(buffer[p]))){ 
 					++offset;
 					updateBuffer(ifs, buffer, BufferSize, p, nb);
-					if (buffer[p] == '\n') {
-						c = buffer[p+1];
-					} // C toujours égal au début de ligne
 				} 
+
 
 				if (buffer[p+1] == '@' || buffer[p+1] == '>')
 				{
 					etat = 0;
 					c = buffer[p+1];
-					cout << "new sequence !!!!!!!!" << endl;
-				} 
+				} else {
+					c = ' ';
+					etat = 4;
+				}
 				break;	
+			}
+			case 4: {
+				cout << "-----------------------" << endl;
+				cout << "END OF FILE" << endl;
+				cout << "-----------------------" << endl;
+				end = true;
+				break;
+
 			}
 			default: {
 /*				while ((p < nb) && l) {
@@ -514,7 +543,6 @@ void FastXFile::myparse(){
 				updateBuffer(ifs, buffer, BufferSize, p, nb);
 				++offset;
 				}*/
-				cerr << " Mais quand est ce que je rentre ici ?" << endl;
 				--p;
 				--offset;
 				etat = 0;
@@ -522,7 +550,7 @@ void FastXFile::myparse(){
 		}
 		updateBuffer(ifs, buffer, BufferSize, p, nb);
 		++offset;
-	} while (p < nb);
+	} while (p < nb && !end);
 
     for(unsigned int i=0; i < m_nbSeq; i++){
       	cout << "Tableau à l'indice " << i <<": "<< m_position[i] << endl;
