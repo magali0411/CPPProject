@@ -21,7 +21,7 @@ class SequenceFastA : public SequenceFastX
 	SequenceFastA(const SequenceFastA &seq);
 
 	// Destructeur
-	virtual ~SequenceFastA();
+	//virtual ~SequenceFastA();
 
 
 };

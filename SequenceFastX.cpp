@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <fstream>
+#include <cstdio>
 
 
 #include "SequenceFastX.h"
@@ -12,60 +13,78 @@ using namespace std;
 
 // Constructeur
 
-SequenceFastX::SequenceFastX(): m_seqName(NULL), m_file(NULL), m_pos_seq(0) {}
+SequenceFastX::SequenceFastX(): 
+    m_file(NULL),
+    m_seqName(NULL),
+    m_head(""),
+    m_size(0),
+    m_pos_seq(0),
+    m_txGC(0)
+    {}
     
-SequenceFastX::SequenceFastX(const char* &f, const size_t pos, size_t size, std::string head) : m_seqName(NULL), m_pos_seq(pos)
+SequenceFastX::SequenceFastX(const char* &f, const size_t pos, size_t size, std::string head) :
+    m_file(NULL),
+    m_seqName(NULL), 
+    m_head(""),
+    m_size(0),
+    m_pos_seq(0),
+    m_txGC(0)
 {
-
-    setHead(head);
-    setSize(size);
     setFile(f);
-
+    setPosSeq(pos);
+    setSize(size);
+    setHead(head);
 }
 
 
 // Destructeur
 SequenceFastX::~SequenceFastX()
 { 
-    if (m_seqName){
-        delete[] m_seqName;
-    }
-
-    if(m_file){
-        delete [] m_file;
-    }
-
+    clear();
 }
 
 //cleaner
 void SequenceFastX::clear()
 {
-    m_seqName=NULL;
-    m_file=NULL;
+    if (m_seqName) {
+        delete [] m_seqName;
+        m_seqName =NULL;
+    }
+    if (m_file) {
+        delete [] m_file;
+        m_file =NULL;
+    }
     m_head = "";
     m_size=0;
-    //m_pos_seq=0;
+    m_pos_seq=0;
     m_txGC = 0;
 }
 
 
 // Constructeur par copie
-SequenceFastX::SequenceFastX(const SequenceFastX &seq) : m_pos_seq(seq.m_pos_seq)
-{
-    if (m_seqName){
+SequenceFastX::SequenceFastX(const SequenceFastX &seq) : 
+    m_file(myStrDup(seq.m_file)),
+    m_seqName(myStrDup(seq.m_seqName)),
+    m_head(seq.m_head),
+    m_size(seq.m_size),
+    m_pos_seq(seq.m_pos_seq),
+    m_txGC(seq.m_txGC)
+    {}
 
-        delete[] m_seqName;
+
+//operateur par copie
+SequenceFastX &SequenceFastX::operator=(const SequenceFastX &seq){ 
+    if(&seq != this) {
+        m_file = myStrDup(seq.m_file);
+        m_seqName = myStrDup(seq.m_seqName);
+        m_pos_seq = seq.m_pos_seq;
+        m_size = seq.m_size;
+        m_txGC = seq.m_txGC;
+        m_head = seq.m_head;
     }
+    return *this;
+} 
 
-    if(m_file) {
-        delete[] m_file;
-    }
-
-    m_seqName= myStrDup(seq.m_seqName);
-    m_size = seq.m_size;
-    m_head = seq.m_head; 
-    m_file = myStrDup(seq.m_file);
-}
 
 // Getters & Setter
 
@@ -120,8 +139,7 @@ void SequenceFastX::setFile(const char* &f)
 {
 
     if (m_file){
-
-        delete [] m_file;
+        clear();
     }
 
     m_file = myStrDup(f);
@@ -129,16 +147,22 @@ void SequenceFastX::setFile(const char* &f)
 
 
 
-const size_t SequenceFastX::getPosition() const
+size_t SequenceFastX::getPosition() const
 {
     return m_pos_seq;
 }
 
-// position
-// const char* SequenceFastX::getSeq() const
-// {
-//     return m_seq;
-// }
+void SequenceFastX::setPosSeq(const size_t pos)
+{
+    if (pos > 0) {
+        m_pos_seq = pos;
+    } else {
+        cerr << "Wrong conversion" << endl;
+        m_pos_seq = 0;
+    }
+}
+
+
 
 /*void SequenceFastX::setPos(const char* &seq)
 {
@@ -165,21 +189,14 @@ string SequenceFastX::getSeq() const {
     if(ifs) {
 
         ifs.seekg(m_pos_seq);
-        string line;
-        getline(ifs, line);
-        while(getline(ifs,line)&& line[0] != '>' && line[0] != ';' && line[0] != '@'){
-
-            for(size_t i = 0; i<line.size(); i++) {
-
-
-                if (line[i] != '\0') {
-
-                    sequence +=line[i];
-                }
-
+        char c;
+        ifs.ignore(-1,'\n');
+        for(unsigned int p; p < m_size; ++p) {
+            c = ifs.get();
+            if (isNucl(c)){
+                sequence += c;
             }
         }
-
 
     } else{
 

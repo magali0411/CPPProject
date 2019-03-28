@@ -10,16 +10,18 @@ using namespace std;
 
 // Constructeurs 
 
-SequenceFastQ::SequenceFastQ(const char* &f, const size_t pos, size_t size, string head) : SequenceFastX(f, pos, size, head){
-}
+SequenceFastQ::SequenceFastQ(const char* &f, const size_t pos, size_t size, string head) : 
+    SequenceFastX(f, pos, size, head){
+    }
 
-SequenceFastQ::SequenceFastQ(const SequenceFastQ &seq) : SequenceFastX(seq){}
-
+SequenceFastQ::SequenceFastQ(const SequenceFastQ &seq) : 
+    SequenceFastX(seq){}
+    
 SequenceFastQ::SequenceFastQ(){}
 
 // Destructeur
 
-SequenceFastQ::~SequenceFastQ(){
+/*SequenceFastQ::~SequenceFastQ(){
     if (m_seqName){
         delete[] m_seqName;
     }
@@ -28,12 +30,12 @@ SequenceFastQ::~SequenceFastQ(){
         delete[] m_file;
     }
 
-}
+}*/
 
 
 
 // set score
-void SequenceFastQ::setScore(string &s)
+/*void SequenceFastQ::setScore(string &s)
 {
 
 	if (m_score) 
@@ -116,4 +118,4 @@ string SequenceFastQ::getSeq() {
         throw string("File has been moved or removed.");
     }
 
-}
+}*/

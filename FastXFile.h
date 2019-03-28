@@ -4,23 +4,26 @@
 
 #include "SequenceFastX.h"
 #include "SequenceFastA.h"
+#include "SequenceFastQ.h"
 
 class SequenceFastX;
 
 
-
-
 class FastXFile {
+
     public :
     enum Format {
         UNDEF,
         FASTA,
         FASTQ
     };
+
+
     private:
         const char* m_filename;
         Format m_format;
         size_t* m_position;
+        size_t* m_taille;
         size_t m_nbSeq;
 
         //Méthodes internes
@@ -35,7 +38,7 @@ class FastXFile {
         FastXFile(const FastXFile &f); // constructeur par copie
         //operateurs
         FastXFile &operator=(const FastXFile &f);
-        char operator[](size_t i) const ;
+        //char operator[](size_t i) const ;
         friend std::ostream& operator<<(std::ostream &os, const FastXFile &f); 
 
 
@@ -54,7 +57,7 @@ class FastXFile {
         void toStream(std::ostream &os) const;
         
         void clear();
-        SequenceFastX* getSequence(size_t i) const;
+        SequenceFastX getSequence(size_t i) const;
 }
 ;
 #endif //FASTXFILE_H

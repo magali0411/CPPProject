@@ -11,12 +11,11 @@ class SequenceFastX{
     // ATTRIBUTS
     protected :
     
-    char* m_seqName;
     const char* m_file;
+    char* m_seqName;
     std::string m_head;
     size_t m_size;
-    const size_t m_pos_seq;
-
+    size_t m_pos_seq;
     float m_txGC;
 
 
@@ -27,14 +26,18 @@ class SequenceFastX{
     SequenceFastX(const char* &f, const size_t pos, size_t size, std::string head);
     SequenceFastX(const SequenceFastX &seq);
 
+
+    //operateur par copie
+    SequenceFastX &operator=(const SequenceFastX &seq);
+
+    // clear 
+    void clear();
+
     //Destructeur 
-    virtual ~SequenceFastX() ;
+    ~SequenceFastX() ;
 
     //my strdup()
     //const char * myStrDup (const char * s);
-
-    //cleaner
-    void clear();
 
     // SETTERS & GETTERS 
 
@@ -59,7 +62,8 @@ class SequenceFastX{
     void setFile(const char* &f);
 
     //position séquence
-    const size_t getPosition() const;
+    size_t getPosition() const;
+    void setPosSeq(const size_t pos);
 
     // Methodo
 

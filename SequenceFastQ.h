@@ -21,7 +21,7 @@ class SequenceFastQ : public SequenceFastX
 	SequenceFastQ(const SequenceFastQ &seq);
 
 	// Destructeur
-	virtual ~SequenceFastQ();
+	//virtual ~SequenceFastQ();
 
 	//Getters & setters
 	void setScore(std::string &s);

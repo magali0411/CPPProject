@@ -4,10 +4,11 @@ CXX_FLAGS = -std=c++11 -Wall -ansi -pedantic
 LDFLAGS =
 PROG = test
 FILE = sequence.fasta
-FILE2 = arabidopsis.fasta
-FILE3 = sequence.fastq
+FILE2 = ara.fasta
+FILE3 = Arabidopsis.fasta
 FILE4 = sequence2.fastq
 FILE5 = run2.fastq
+FILE6 = run7.fastq
 
 #  EncodedSequences.cpp
 SOURCES = \
@@ -57,7 +58,7 @@ utilities.o: utilities.cpp utilities.h
 
 #Execution
 run :
-	./$(PROG) $(FILE5)
+	./$(PROG) $(FILE)
 
 # Suppression des .o
 

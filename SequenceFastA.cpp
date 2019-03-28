@@ -6,21 +6,13 @@
 
 using namespace std;
 
-SequenceFastA::SequenceFastA(const char* &f, const size_t pos, size_t size, string head) : SequenceFastX(f, pos, size, head){
-}
+SequenceFastA::SequenceFastA(const char* &f, const size_t pos, size_t size, string head) : 
+	SequenceFastX(f, pos, size, head){
+	}
 
-SequenceFastA::SequenceFastA(const SequenceFastA &seq) : SequenceFastX(seq){}
+SequenceFastA::SequenceFastA(const SequenceFastA &seq) : 
+	SequenceFastX(seq){}
 
 SequenceFastA::SequenceFastA(){}
 
-SequenceFastA::~SequenceFastA(){
-    if (m_seqName){
-        delete[] m_seqName;
-    }
-
-    if(m_file){
-        delete[] m_file;
-    }
-
-}
 
