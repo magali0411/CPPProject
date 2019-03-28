@@ -189,10 +189,14 @@ string SequenceFastX::getSeq() const {
     if(ifs) {
 
         ifs.seekg(m_pos_seq);
+
         char c;
-        ifs.ignore(-1,'\n');
-        for(unsigned int p; p < m_size; ++p) {
+        while (ifs.peek() != '\n'){  
             c = ifs.get();
+        }
+
+        for(unsigned int p; p <= m_size; ++p) {
+            c = ifs.get(); 
             if (isNucl(c)){
                 sequence += c;
             }

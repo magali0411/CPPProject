@@ -26,6 +26,12 @@ int main(int argc, char ** argv)
 		size_t i = 1;
 		//SequenceFastX * s1 = f1.getSequence(i);
 		std::cout << (f1.getSequence(i)).getHead() << std::endl;
+		std::cout << (f1.getSequence(i)).getSeq() << std::endl;
+		std::cout << (f1.getSequence(i)).getSize() << std::endl;
+
+		std::cout << (f1.getSequence(i)).seqReverse((f1.getSequence(i)).getSeq()) << std::endl;
+
+
 		//std::cout << s1.getHead() << std::endl;
 		//std::cout << (*s1).getSize() << std::endl;
 
