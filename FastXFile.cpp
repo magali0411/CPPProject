@@ -6,6 +6,8 @@
 #include <sstream>
 #include <iostream>
 #include <fstream>
+#include <cstdio>
+
 using namespace std ;
 
 /*char FastXFile::operator[](size_t i) const {
@@ -606,7 +608,7 @@ bool FastXFile::seqCheck(size_t posheader) const{
 	return format;
 }
 
-SequenceFastX FastXFile::getSequence(size_t i) const{
+SequenceFastX * FastXFile::getSequence(size_t i) const{
 
 	//cout << "position de la séquence : " << m_pos[i] << endl;
 	--i;
@@ -622,7 +624,7 @@ SequenceFastX FastXFile::getSequence(size_t i) const{
 	size_t pos_debut = m_position[i];
 	size_t length = m_taille[i];
 
-	SequenceFastX seq;
+	SequenceFastX * seq;
 
 	ifstream ifs(m_filename,ios_base::in);
 
@@ -634,20 +636,21 @@ SequenceFastX FastXFile::getSequence(size_t i) const{
 
 		if(m_format == FASTA) {
 
-			SequenceFastA seq;
-			//seq = new SequenceFastA(name, pos_debut, length, header);
+			//SequenceFastA seq;
+			seq = new SequenceFastA();//name, pos_debut, length, header);
 			//cout << (*seq).getHead()<< endl;
 		} else if(m_format == FASTQ) {
-			SequenceFastQ seq;
-			//seq = new SequenceFastQ(name, pos_debut, length, header);
+			//SequenceFastQ seq;
+			seq = new SequenceFastQ();//name, pos_debut, length, header);
 		} else {
 			throw "Unknown sequence";
 		}
 
-		seq.setHead(header);
-		seq.setSize(length);
-		seq.setFile(name);
-		seq.setPosSeq(pos_debut);
+		(*seq).setHead(header);
+		(*seq).setSize(length);
+		(*seq).setFile(name);
+		(*seq).setPosSeq(pos_debut);
+		//cout << "---FORMAT ---" << m_format << endl;
 
 
 		ifs.close();
@@ -663,4 +666,109 @@ SequenceFastX FastXFile::getSequence(size_t i) const{
 	}
 
 }
+
+void FastXFile::DelReadN(){
+
+
+	ifstream ifs(m_filename,ios_base::in); // lecture 
+	const int BufferSize = 1024; 
+	char buffer[BufferSize];
+
+	size_t nb = 0, p = 0, i = 0;
+	char c;
+/*	char c = '\n';*/
+	//string entete;
+	size_t Tentete = 0;
+	string entete;
+	updateBuffer(ifs, buffer, BufferSize, p, nb);
+
+
+
+
+while ((p < nb) && (i < m_nbSeq)){
+
+	p = m_position[i];
+	ifs.seekg(p);
+	cout << " -- P " << p << endl;
+    size_t seqLength = m_taille[i];
+
+	while ((p < nb) && (buffer[p] != '\n')) {
+		++ Tentete;
+		updateBuffer(ifs, buffer, BufferSize, p, nb);
+		entete += buffer[p];
+
+		//ofs.write(buffer, Tentete);
+	} 
+	cout << "YUMMM ----" << entete << endl;
+	++i;
+	//updateBuffer(ifs, buffer, BufferSize, p, nb);
+
+}
+
+// ICI nous avons le buffer à la position p sur la fin de la première ligne (entête)
+
+/*	c = buffer[p+1];
+	if (p < nb){
+		do {
+
+		}
+	}
+
+	//bool end = false;
+	updateBuffer(ifs, buffer, BufferSize, p, nb);
+
+	while ( p < nb && buffer[p] != '\n'){
+		cout << " J'y suis " << endl;
+		updateBuffer(ifs, buffer, BufferSize, p, nb);
+	}
+
+*/
+
+
+
+	//Parcours du fichier
+	//size_t ligne = 0, colonne = 0;
+	//char c = buffer[p];
+/*
+	while ((p < nb) && (isSpace(buffer[p]))){ 
+		if (buffer[p] == '\n') {
+			++ligne;
+			colonne = 0;
+		} else {
+			++colonne;
+		}
+		updateBuffer(ifs, buffer, BufferSize, p, nb); 
+	}*/ // On saute les espaces au début du fichier
+
+/*	while ( p < nb && i <= m_nbSeq){
+		p = m_position[i];
+		ifs.seekg(p);
+		cout << " -- P " << p << endl;
+        size_t seqLength = m_taille[i];
+        string line, entete;
+
+        getline(ifs,line);
+        ofs.write (buffer,BufferSize);
+
+
+        while ((p < nb) && (buffer[p] != '\n')){ 
+		updateBuffer(ifs, buffer, BufferSize, p, nb); 
+		} // On saute l'entête
+		char c = buffer[p];
+		ifs.seekg(p);
+
+		while ((p < nb) && (buffer[p] != '\n')){ 
+			if((buffer[p] == 'N') || (buffer[p] == 'n')) {
+
+				cout << "FOUNDEDDD" << endl;
+			}
+		}
+
+        ++i;
+
+    }*/
+
+}
+
+
 

@@ -9,6 +9,7 @@ FILE3 = Arabidopsis.fasta
 FILE4 = sequence2.fastq
 FILE5 = run2.fastq
 FILE6 = run7.fastq
+FILE7 = sequenceTEST.fasta
 
 #  EncodedSequences.cpp
 SOURCES = \
@@ -58,7 +59,7 @@ utilities.o: utilities.cpp utilities.h
 
 #Execution
 run :
-	./$(PROG) $(FILE)
+	./$(PROG) $(FILE5)
 
 # Suppression des .o
 

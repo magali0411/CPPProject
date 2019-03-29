@@ -16,7 +16,7 @@ SequenceFastQ::SequenceFastQ(const char* &f, const size_t pos, size_t size, stri
 
 SequenceFastQ::SequenceFastQ(const SequenceFastQ &seq) : 
     SequenceFastX(seq){}
-    
+
 SequenceFastQ::SequenceFastQ(){}
 
 // Destructeur
@@ -35,7 +35,7 @@ SequenceFastQ::SequenceFastQ(){}
 
 
 // set score
-/*void SequenceFastQ::setScore(string &s)
+void SequenceFastQ::setScore(string &s)
 {
 
 	if (m_score) 
@@ -46,6 +46,56 @@ SequenceFastQ::SequenceFastQ(){}
 }
 
 // Specialisation getSeq
+
+// Sequence
+string SequenceFastQ::Score() const {
+
+    ifstream ifs(m_file,ios_base::in);
+    string sequence;
+    string score;
+
+    cout << "THIS ONNNNE" << endl;
+
+    if(ifs) {
+
+        ifs.seekg(m_pos_seq);
+
+        char c;
+        while (ifs.peek() != '\n'){  
+            c = ifs.get();
+        }
+
+        for(unsigned int p; p <= m_size; ++p) {
+            c = ifs.get(); 
+            if (isNucl(c)){
+                sequence += c;
+            }
+        }
+
+        c = ifs.get(); // On mange le '/n fin de sequence'
+
+        do {
+            c = ifs.get();
+        } while (ifs.peek() != '\n') ; 
+        // on mange la ligne du +
+        
+        for(unsigned int q; q <= m_size; ++q) {
+            c = ifs.get(); 
+            if (isNucl(c)){
+                score += c;
+            }
+        }
+
+    } else{
+
+        throw string("File has been moved or removed.");
+    }
+
+    return score;
+
+}
+
+/*
 string SequenceFastQ::getSeq() {
 
     ifstream ifs(m_file,ios_base::in);

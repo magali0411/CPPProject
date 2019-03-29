@@ -154,7 +154,7 @@ size_t SequenceFastX::getPosition() const
 
 void SequenceFastX::setPosSeq(const size_t pos)
 {
-    if (pos > 0) {
+    if (pos >= 0) {
         m_pos_seq = pos;
     } else {
         cerr << "Wrong conversion" << endl;

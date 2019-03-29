@@ -57,7 +57,10 @@ class FastXFile {
         void toStream(std::ostream &os) const;
         
         void clear();
-        SequenceFastX getSequence(size_t i) const;
+        SequenceFastX * getSequence(size_t i) const;
+
+        void DelReadN();
+
 }
 ;
 #endif //FASTXFILE_H

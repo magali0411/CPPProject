@@ -7,7 +7,7 @@
 
 class SequenceFastQ : public SequenceFastX
 {
-	private :
+	protected :
 
 	char* m_score;
 
@@ -28,7 +28,7 @@ class SequenceFastQ : public SequenceFastX
 	char* getScore() const;
 
 	//Specialisation getSeq
-	std::string getSeq();
+	virtual std::string Score() const ;
 
 
 }
