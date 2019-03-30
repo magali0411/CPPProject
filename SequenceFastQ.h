@@ -7,7 +7,7 @@
 
 class SequenceFastQ : public SequenceFastX
 {
-	protected :
+	public :
 
 	char* m_score;
 
@@ -19,16 +19,17 @@ class SequenceFastQ : public SequenceFastX
 	SequenceFastQ(const char* &f, const size_t pos, size_t size, std::string head);
 	// Constructeur par copie
 	SequenceFastQ(const SequenceFastQ &seq);
+	SequenceFastQ(const SequenceFastX &seq);
 
 	// Destructeur
-	//virtual ~SequenceFastQ();
+	virtual ~SequenceFastQ();
 
 	//Getters & setters
-	void setScore(std::string &s);
+	void setScore(char* &s);
 	char* getScore() const;
 
 	//Specialisation getSeq
-	virtual std::string Score() const ;
+	std::string Score() const ;
 
 
 }

@@ -646,9 +646,9 @@ SequenceFastX * FastXFile::getSequence(size_t i) const{
 			throw "Unknown sequence";
 		}
 
+		(*seq).setFile(name);
 		(*seq).setHead(header);
 		(*seq).setSize(length);
-		(*seq).setFile(name);
 		(*seq).setPosSeq(pos_debut);
 		//cout << "---FORMAT ---" << m_format << endl;
 
@@ -660,13 +660,12 @@ SequenceFastX * FastXFile::getSequence(size_t i) const{
 
 		throw "Error in file.";
 	}
-
 	delete [] name;
 	return seq;
 	}
 
 }
-
+/*
 void FastXFile::DelReadN(){
 
 
@@ -676,7 +675,7 @@ void FastXFile::DelReadN(){
 
 	size_t nb = 0, p = 0, i = 0;
 	char c;
-/*	char c = '\n';*/
+	char c = '\n';
 	//string entete;
 	size_t Tentete = 0;
 	string entete;
@@ -707,7 +706,7 @@ while ((p < nb) && (i < m_nbSeq)){
 
 // ICI nous avons le buffer à la position p sur la fin de la première ligne (entête)
 
-/*	c = buffer[p+1];
+	c = buffer[p+1];
 	if (p < nb){
 		do {
 
@@ -722,14 +721,14 @@ while ((p < nb) && (i < m_nbSeq)){
 		updateBuffer(ifs, buffer, BufferSize, p, nb);
 	}
 
-*/
+
 
 
 
 	//Parcours du fichier
 	//size_t ligne = 0, colonne = 0;
 	//char c = buffer[p];
-/*
+
 	while ((p < nb) && (isSpace(buffer[p]))){ 
 		if (buffer[p] == '\n') {
 			++ligne;
@@ -738,9 +737,9 @@ while ((p < nb) && (i < m_nbSeq)){
 			++colonne;
 		}
 		updateBuffer(ifs, buffer, BufferSize, p, nb); 
-	}*/ // On saute les espaces au début du fichier
+	} // On saute les espaces au début du fichier
 
-/*	while ( p < nb && i <= m_nbSeq){
+	while ( p < nb && i <= m_nbSeq){
 		p = m_position[i];
 		ifs.seekg(p);
 		cout << " -- P " << p << endl;
@@ -766,9 +765,7 @@ while ((p < nb) && (i < m_nbSeq)){
 
         ++i;
 
-    }*/
-
-}
-
+    }
+*/
 
 

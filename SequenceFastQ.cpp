@@ -11,38 +11,39 @@ using namespace std;
 // Constructeurs 
 
 SequenceFastQ::SequenceFastQ(const char* &f, const size_t pos, size_t size, string head) : 
-    SequenceFastX(f, pos, size, head){
-    }
+    SequenceFastX(f, pos, size, head),
+    m_score(NULL) {}
 
 SequenceFastQ::SequenceFastQ(const SequenceFastQ &seq) : 
-    SequenceFastX(seq){}
+    SequenceFastX(seq),
+    m_score(seq.m_score){}
+
+SequenceFastQ::SequenceFastQ(const SequenceFastX &seq) : 
+    SequenceFastX(seq),
+    m_score(NULL){}
 
 SequenceFastQ::SequenceFastQ(){}
 
 // Destructeur
-
-/*SequenceFastQ::~SequenceFastQ(){
-    if (m_seqName){
-        delete[] m_seqName;
+SequenceFastQ::~SequenceFastQ(){
+    
+    if (m_score){
+        delete[] m_score;
     }
 
-    if(m_file){
-        delete[] m_file;
-    }
-
-}*/
+}
 
 
 
 // set score
-void SequenceFastQ::setScore(string &s)
+void SequenceFastQ::setScore(char * &s)
 {
 
 	if (m_score) 
 	{
 		delete [] m_score;
 	}
-	strcpy(m_score, s.c_str());
+	m_score = myStrDup(s);
 }
 
 // Specialisation getSeq
@@ -50,11 +51,10 @@ void SequenceFastQ::setScore(string &s)
 // Sequence
 string SequenceFastQ::Score() const {
 
+    cout << " file : " << m_file << endl;
     ifstream ifs(m_file,ios_base::in);
     string sequence;
     string score;
-
-    cout << "THIS ONNNNE" << endl;
 
     if(ifs) {
 
@@ -65,23 +65,24 @@ string SequenceFastQ::Score() const {
             c = ifs.get();
         }
 
-        for(unsigned int p; p <= m_size; ++p) {
+        for(unsigned int p = 0 ; p <= m_size; ++p) {
             c = ifs.get(); 
             if (isNucl(c)){
                 sequence += c;
             }
         }
-
+        //cout << "sequence " << sequence << endl;
+        //c = ifs.get();
         c = ifs.get(); // On mange le '/n fin de sequence'
-
+        //cout << "C ici " << c << endl;
         do {
             c = ifs.get();
-        } while (ifs.peek() != '\n') ; 
+        } while (c != '\n') ; 
         // on mange la ligne du +
         
-        for(unsigned int q; q <= m_size; ++q) {
+        for(unsigned int q = 0 ; q <= m_size; ++q) {
             c = ifs.get(); 
-            if (isNucl(c)){
+            if(!isSpace(c)){
                 score += c;
             }
         }
@@ -91,6 +92,7 @@ string SequenceFastQ::Score() const {
         throw string("File has been moved or removed.");
     }
 
+    ifs.close();
     return score;
 
 }

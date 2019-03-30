@@ -1,6 +1,6 @@
 #VAR
 CXX = g++ 
-CXX_FLAGS = -std=c++11 -Wall -ansi -pedantic 
+CXX_FLAGS = -std=c++11 -Wall -ansi -pedantic -g
 LDFLAGS =
 PROG = test
 FILE = sequence.fasta

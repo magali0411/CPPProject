@@ -184,7 +184,7 @@ void SequenceFastX::toStream(ostream &os) const{
 string SequenceFastX::getSeq() const {
 
     ifstream ifs(m_file,ios_base::in);
-    string sequence;
+    string sequence = "";
 
     if(ifs) {
 
@@ -203,7 +203,6 @@ string SequenceFastX::getSeq() const {
         }
 
     } else{
-
         throw string("File has been moved or removed.");
     }
 

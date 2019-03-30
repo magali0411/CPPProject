@@ -1,6 +1,8 @@
 
 #include "FastXFile.h"
 #include"SequenceFastX.h"
+#include"SequenceFastQ.h"
+#include"SequenceFastA.h"
 
 
 
@@ -18,21 +20,34 @@ int main(int argc, char ** argv)
 		FastXFile f1(argv[1]);
 		//f1.setFilename(file);
 	
-
-		//std::cout << " Nombre de seq detectées :" << f1.getNbSeq() << std::endl;
-		
 		size_t i = 1;
-		//SequenceFastX * s1 = f1.getSequence(i);
-		std::cout << (*(f1.getSequence(i))).getHead() << std::endl;
-		std::cout << (*(f1.getSequence(i))).getSeq() << std::endl;
-		std::cout << (*(f1.getSequence(i))).getSize() << std::endl;
+
+		SequenceFastX * s1 = new SequenceFastX(*f1.getSequence(i));
+		std::cout << (*(s1)).getFile()<< std::endl;
+
+/*
+		SequenceFastQ * sq = new SequenceFastQ(*s1);
+		std::cout << (*sq).Score() << std::endl;
+
+		//std::string seq = (*sq).getSeq();
+		std::cout << (*sq).seqReverse((*sq).getSeq()) << std::endl;*/
+		
+
+		delete s1;
+		//delete sq;
 
 
-		SequenceFastQ sq;
-		SequenceFastX * seq = f1.getSequence(1);
-		seq = &sq;
 
+		//std::cout << (*s1).getSeq() << std::endl;
+		//std::cout << (*s1).getSize() << std::endl;
 
+		//SequenceFastQ sq;
+		//SequenceFastX * seq = f1.getSequence(1);
+		//seq = &sq;
+
+		//std::cout << (*seq).getFile() << std::endl;
+
+		//std::cout << (sq)
 
 
 		//SequenceFastX s = f1.getSequence(i);
@@ -40,19 +55,11 @@ int main(int argc, char ** argv)
 
 		//SequenceFastX * seq = &sq;
 		//std::cout << (f1.getSequence(i)).seqReverse((f1.getSequence(i)).getSeq()) << std::endl;
-
-		std::cout << (sq).Score() << std::endl;
-
 		//f1.DelReadN() ;
 		//std::cout << s1.getHead() << std::endl;
 		//std::cout << (*s1).getSize() << std::endl;
 
-		//std::string seq = (*s1).getSeq();
-		//std::cout << (*s1).seqReverse(seq) << std::endl;
 		//std::cout << (*s1).seqCompl(seq) << std::endl;
-
-
-		//delete s1;
 		//delete [] file;
 
 	} catch (std::string &e) {

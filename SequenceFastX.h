@@ -34,7 +34,7 @@ class SequenceFastX{
     void clear();
 
     //Destructeur 
-    ~SequenceFastX() ;
+    virtual ~SequenceFastX() ;
 
     //my strdup()
     //const char * myStrDup (const char * s);
@@ -47,7 +47,7 @@ class SequenceFastX{
 
 
     //séquence nucléotidique
-    virtual std::string getSeq() const ;
+    std::string getSeq() const ;
 
     // Retourne les infos relatives à une séquence aka l'header
     std::string getHead() const;
@@ -77,6 +77,9 @@ class SequenceFastX{
 
     // complement sequence
     std::string seqCompl(const std::string &seq) const;
+
+    //Sequence encodée
+ //   EncodedSequence Encode() const;
 
 
 };

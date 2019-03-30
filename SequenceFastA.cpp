@@ -13,6 +13,12 @@ SequenceFastA::SequenceFastA(const char* &f, const size_t pos, size_t size, stri
 SequenceFastA::SequenceFastA(const SequenceFastA &seq) : 
 	SequenceFastX(seq){}
 
+SequenceFastA::SequenceFastA(const SequenceFastX &seq) : 
+    SequenceFastX(seq){}
+
 SequenceFastA::SequenceFastA(){}
+
+SequenceFastA::~SequenceFastA(){}
+
 
 

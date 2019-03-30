@@ -19,9 +19,11 @@ class SequenceFastA : public SequenceFastX
 
 	// Constructeur par copie
 	SequenceFastA(const SequenceFastA &seq);
+	SequenceFastA(const SequenceFastX &seq);
+
 
 	// Destructeur
-	//virtual ~SequenceFastA();
+	~SequenceFastA();
 
 
 };
