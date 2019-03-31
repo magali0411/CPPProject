@@ -1,10 +1,13 @@
 #ifndef SEQUENCEFASTX_H_INCLUDED
 #define SEQUENCEFASTX_H_INCLUDED
 
-#include<iostream>
+#include<ostream>
+
+#include "EncodedSequence.h"
 
 
 class FastXFile;
+class EncodedSequence;
 
 class SequenceFastX{
 
@@ -27,8 +30,12 @@ class SequenceFastX{
     SequenceFastX(const SequenceFastX &seq);
 
 
-    //operateur par copie
+    //operateur de copie
     SequenceFastX &operator=(const SequenceFastX &seq);
+
+    //operteur << 
+    friend std::ostream& operator<<(std::ostream &os, const SequenceFastX &s); 
+
 
     // clear 
     void clear();
@@ -36,8 +43,6 @@ class SequenceFastX{
     //Destructeur 
     virtual ~SequenceFastX() ;
 
-    //my strdup()
-    //const char * myStrDup (const char * s);
 
     // SETTERS & GETTERS 
 
@@ -79,7 +84,7 @@ class SequenceFastX{
     std::string seqCompl(const std::string &seq) const;
 
     //Sequence encodée
- //   EncodedSequence Encode() const;
+    EncodedSequence EncodeSeq() const;
 
 
 };

@@ -1,5 +1,6 @@
 #ifndef __FASTXFILE_H__
 #define __FASTXFILE_H__
+
 #include <ostream>
 
 #include "SequenceFastX.h"

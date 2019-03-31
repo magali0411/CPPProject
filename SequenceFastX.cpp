@@ -85,6 +85,14 @@ SequenceFastX &SequenceFastX::operator=(const SequenceFastX &seq){
     return *this;
 } 
 
+//operateur affichage
+ostream& operator<<(ostream &os, const SequenceFastX &s)
+{
+    s.toStream(os);
+    return os;
+} 
+
+
 
 // Getters & Setter
 
@@ -259,4 +267,27 @@ string SequenceFastX::seqReverse(const std::string &seq) const
     return rev;
 }
 
+// Encoded sequence
+
+EncodedSequence SequenceFastX::EncodeSeq() const
+{
+
+    size_t l= m_size;
+    EncodedSequence es(l);
+    string sequence = getSeq();
+    char c;
+
+    if (StringNotSeq(sequence)) {
+        throw "Degenerated alphabet detected. Format non supported.";
+    }
+    for(size_t p =0; p< m_size; ++p){
+
+        c = sequence[p];    
+        es.setNucl(p,c);
+            //cout << "------  " << c << endl;
+
+    }
+
+    return es;
+}
 

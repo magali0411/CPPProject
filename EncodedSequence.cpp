@@ -1,13 +1,16 @@
+#include <stdlib.h>
+#include <iostream>
+
+
+
 #include "EncodedSequence.h"
 using namespace std;
 
-/*std::ostream &operator<<(std::ostream &os, const EncodedSequences &es){
-    es.ostream(os);
-    return os;
-}*/
 
 EncodedSequence::EncodedSequence(size_t n):
-n(0), N(n ? getByte(n)+1:0), t(N ? new char[N]:NULL) {}
+n(0), N(n ? getByte(n)+1:0), t(N ? new char[N]:NULL) {
+
+}
 
 EncodedSequence::EncodedSequence(const EncodedSequence &es):
 n(es.n),N(n ? getByte(n)+1:0),t(N ? new char[N]:NULL) {
@@ -41,10 +44,10 @@ void EncodedSequence::clear(){
 
 void EncodedSequence::reserve(size_t n){
     size_t N=getByte(n)+1;
-    if(N > this->N){ //si N est plus grand que mon tableau actuel
+    if(N > this->N){ //si N est plus grand que la taille actuelle reservée pour ma séquence
         char *t = new char [N];
-        copy(this->t , this->t+this->N,t);
-        delete[]this->t;
+        copy(this->t , this->t+this->N,t); // Copie de notre séquence encodée dans un new tab t
+        delete[]this->t; 
         this->t=t;
         this->N=N;
     }
@@ -52,11 +55,13 @@ void EncodedSequence::reserve(size_t n){
 
 size_t EncodedSequence::getByte(size_t i){
     return i ? (i-1)>>2:0;
-}
+} // Décalage de deux vers la gauche du nombre de nucl de notre séquence
+// Cela équivaut à diviser par 4 sa taille et donc obtenir la taille
+// nécessaire pour stocker la séquence 
 
-size_t EncodedSequence::getPosBytes(size_t i){
+size_t EncodedSequence::getPosByte(size_t i){
     return i ? (i-1)&3:0;
-}
+} // masquage des bits autour du nucléotide demandé
 
 char EncodedSequence::encode(char c) const {
     return(((c=='a')||(c=='A'))
@@ -84,20 +89,20 @@ char EncodedSequence::operator[](size_t i) const {
     if(i>n) {
         throw "out of boundaries"; 
     }
-    char c=t[getByte(i)]; // recupere l'octet
-    c>>=(3-getPosBytes(i))<<1; // correpond a une multiplication par 2
-    return decode(c&3);
+    char c=t[getByte(i)]; // recupere l'octet dans lequel se trouve notre nucléotide i
+    c>>=(3-getPosByte(i))<<1; // 11 - (nucl/2)
+    return decode(c&3); // Masquage 
 }
 
-void EncodedSequence::setNucleo(size_t i, char c) {
-    reserve(i);
+void EncodedSequence::setNucl(size_t i, char c) {
+    reserve(i); // update de la taille reservée pour la sequence
     if(i>n){
         n=i;
-    }
-    char &b = t[getByte(i)];
-    size_t shift = ((3-getPosBytes(i))<<1);
-    b &= ~(3<<shift);
-    b |= (encode(c)<<shift);
+    }// taile seq
+    char &b = t[getByte(i)]; // adresse de l'octet dans lequel on va stocker le nucléotide
+    size_t shift = ((3-getPosByte(i))<<1); //Décalage 
+    b &= ~(3<<shift); // L'adresse dans l'octet est décalée
+    b |= (encode(c)<<shift); // on encode c à l'adresse B au bon décalage
 }
 
 void EncodedSequence::toStream(std::ostream &os) const {
@@ -106,17 +111,39 @@ void EncodedSequence::toStream(std::ostream &os) const {
     }
 }
 
-EncodedSequences EncodedSequence::operator+=(char c){
-    reserve(++n);
+//operateur affichage
+ostream& operator<<(ostream &os, const EncodedSequence &es)
+{
+    es.toStream(os);
+    return os;
+} 
+
+EncodedSequence EncodedSequence::operator+=(char c){
+    reserve(++n);//  Ré-allocation de mémoire et incrémentation de n
     char &B = t[getByte(n)];
-    size_t shift = ((3-getPosBytes(n))<<1);
+    size_t shift = ((3-getPosByte(n))<<1);
     B |= (encode(c)<<shift);
     return *this;
 
-}
+}// ajout rapide d'un char 
 
-EncodedSequences EncodedSequence::reverseComplement() const {
-    
-}
 
-;
+EncodedSequence EncodedSequence::reverseComplement() const {
+
+    EncodedSequence es(n);
+    EncodedSequence ref(*this);
+    char c;
+    char g;
+
+    for(size_t p =0; p<= n; ++p){
+
+        c = ref[n-p];
+        if (c == 'A') { g ='T';}
+        else if (c == 'T') { g ='A';}
+        else if (c == 'G') { g ='C';}
+        else{ g = 'G';}
+        es.setNucl(p,g);
+    }
+
+    return es;
+} // Un peu cassée, mais l'idée est là

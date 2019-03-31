@@ -3,6 +3,7 @@
 #include"SequenceFastX.h"
 #include"SequenceFastQ.h"
 #include"SequenceFastA.h"
+#include"EncodedSequence.h"
 
 
 
@@ -24,17 +25,36 @@ int main(int argc, char ** argv)
 
 		SequenceFastX * s1 = new SequenceFastX(*f1.getSequence(i));
 		std::cout << (*(s1)).getFile()<< std::endl;
+		std::cout << f1 << std::endl;
 
-/*
+
 		SequenceFastQ * sq = new SequenceFastQ(*s1);
-		std::cout << (*sq).Score() << std::endl;
+		//std::cout << (*sq).Score() << std::endl;
 
-		//std::string seq = (*sq).getSeq();
-		std::cout << (*sq).seqReverse((*sq).getSeq()) << std::endl;*/
+		std::string seq = (*sq).getSeq();
+
+		(*sq).setName("Séquence n°1") ;
+		std::cout << *sq << std::endl;
+
+
+		//std::cout << (*sq).seqReverse(seq) << std::endl;
+
+		std::cout << "----------- ENCODE ------------- "<< std::endl;
+		EncodedSequence es = (*s1).EncodeSeq();
+		std::cout << es << std::endl;
+		std::cout << es[1] << std::endl;
+		es += 'A';
+		std::cout << es << std::endl;
+		es.setNucl(2, 'C');
+		std::cout << es << std::endl;
+		std::cout << es.reverseComplement() << std::endl;
+
+
+
 		
 
 		delete s1;
-		//delete sq;
+		delete sq;
 
 
 

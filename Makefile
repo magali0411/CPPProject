@@ -1,6 +1,6 @@
 #VAR
 CXX = g++ 
-CXX_FLAGS = -std=c++11 -Wall -ansi -pedantic -g
+CXX_FLAGS = -std=c++11 -Wall -ansi -pedantic
 LDFLAGS =
 PROG = test
 FILE = sequence.fasta
@@ -15,6 +15,7 @@ FILE7 = sequenceTEST.fasta
 SOURCES = \
   FastXFile.cpp \
   main.cpp \
+  EncodedSequence.cpp \
   SequenceFastA.cpp \
   SequenceFastQ.cpp \
   SequenceFastX.cpp \
@@ -24,6 +25,7 @@ SOURCES = \
 
 HEADERS = \
   FastXFile.h \
+  EncodedSequence.h \
   SequenceFastA.h \
   SequenceFastQ.h \
   SequenceFastX.h \
@@ -43,9 +45,8 @@ $(PROG): $(OBJ)
 .cpp.o:
 	$(CXX) $(CXX_FLAGS) -c  $< -c
 
-EncodedSequences.o: EncodedSequences.cpp EncodedSequences.h
 
-FastXFile.o: FastXFile.cpp FastXFile.h SequenceFastX.h SequenceFastA.h utilities.h
+FastXFile.o: FastXFile.cpp FastXFile.h SequenceFastX.h SequenceFastA.h utilities.h 
 
 main.o: main.cpp FastXFile.h SequenceFastX.h SequenceFastA.h
 
@@ -53,7 +54,10 @@ SequenceFastA.o: SequenceFastA.cpp SequenceFastA.h SequenceFastX.h
 
 SequenceFastQ.o: SequenceFastQ.cpp SequenceFastQ.h SequenceFastX.h
 
-SequenceFastX.o: SequenceFastX.cpp SequenceFastX.h
+SequenceFastX.o: SequenceFastX.cpp SequenceFastX.h EncodedSequence.h
+
+EncodedSequence.o: EncodedSequence.cpp EncodedSequence.h
+
 
 utilities.o: utilities.cpp utilities.h
 
