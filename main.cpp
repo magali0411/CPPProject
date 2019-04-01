@@ -21,13 +21,18 @@ int main(int argc, char ** argv)
 		FastXFile f1(argv[1]);
 		//f1.setFilename(file);
 	
-		size_t i = 1;
+		//size_t i = 1;
 
-		SequenceFastX * s1 = new SequenceFastX(*f1.getSequence(i));
+		std::cout << f1.getFormat() << std::endl;
+
+
+		SequenceFastX * s1 = new SequenceFastX(*f1.getSequence(2));
 		std::cout << (*(s1)).getFile()<< std::endl;
 		std::cout << f1 << std::endl;
 
+		delete s1;
 
+/*
 		SequenceFastQ * sq = new SequenceFastQ(*s1);
 		//std::cout << (*sq).Score() << std::endl;
 
@@ -55,7 +60,7 @@ int main(int argc, char ** argv)
 
 		delete s1;
 		delete sq;
-
+*/
 
 
 		//std::cout << (*s1).getSeq() << std::endl;

@@ -36,20 +36,25 @@ SequenceFastQ::~SequenceFastQ(){
 
 
 // set score
-void SequenceFastQ::setScore(char * &s)
+void SequenceFastQ::setScore(const string &s)
 {
-
 	if (m_score) 
 	{
 		delete [] m_score;
 	}
-	m_score = myStrDup(s);
+	m_score = s.c_str();
 }
 
-// Specialisation getSeq
 
-// Sequence
-string SequenceFastQ::Score() const {
+const char* SequenceFastQ::getScore() const{
+
+    return m_score;
+}
+
+
+// Si on parse pour récupérer la séquence, on peut récuperer le score en même temps
+
+string SequenceFastQ::getSeq() {
 
     cout << " file : " << m_file << endl;
     ifstream ifs(m_file,ios_base::in);
@@ -74,7 +79,7 @@ string SequenceFastQ::Score() const {
         //cout << "sequence " << sequence << endl;
         //c = ifs.get();
         c = ifs.get(); // On mange le '/n fin de sequence'
-        //cout << "C ici " << c << endl;
+
         do {
             c = ifs.get();
         } while (c != '\n') ; 
@@ -87,18 +92,20 @@ string SequenceFastQ::Score() const {
             }
         }
 
+        setScore(score);
+
+
     } else{
 
         throw string("File has been moved or removed.");
     }
 
     ifs.close();
-    return score;
+    return sequence;
 
 }
 
 /*
-string SequenceFastQ::getSeq() {
 
     ifstream ifs(m_file,ios_base::in);
     string sequence;

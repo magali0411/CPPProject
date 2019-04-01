@@ -572,12 +572,15 @@ bool FastXFile::seqCheck(size_t posheader) const{
 
 		} else {
 			ifs.seekg(posheader);
-			c = ifs.peek();
+
+			while(c!= '\n'){
+				c = ifs.peek();
+			}
 
 			// Si un espace est avant la sequence
-			while (ifs && (isSpace(ifs.peek()))){ 
+/*			while (ifs && (isSpace(ifs.peek()))){ 
 				c = ifs.get();
-			} 
+			} */
 
 			c = ifs.peek();
 
@@ -637,20 +640,20 @@ SequenceFastX * FastXFile::getSequence(size_t i) const{
 		if(m_format == FASTA) {
 
 			//SequenceFastA seq;
-			seq = new SequenceFastA();//name, pos_debut, length, header);
+			seq = new SequenceFastA(name, pos_debut, length, header);
 			//cout << (*seq).getHead()<< endl;
 		} else if(m_format == FASTQ) {
 			//SequenceFastQ seq;
-			seq = new SequenceFastQ();//name, pos_debut, length, header);
+			seq = new SequenceFastQ(name, pos_debut, length, header);
 		} else {
 			throw "Unknown sequence";
 		}
 
-		(*seq).setFile(name);
+/*		(*seq).setFile(name);
 		(*seq).setHead(header);
 		(*seq).setSize(length);
 		(*seq).setPosSeq(pos_debut);
-		//cout << "---FORMAT ---" << m_format << endl;
+		cout << "---FORMAT ---" << m_format << endl;*/
 
 
 		ifs.close();

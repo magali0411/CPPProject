@@ -52,7 +52,7 @@ class SequenceFastX{
 
 
     //séquence nucléotidique
-    std::string getSeq() const ;
+    virtual std::string getSeq() const ;
 
     // Retourne les infos relatives à une séquence aka l'header
     std::string getHead() const;

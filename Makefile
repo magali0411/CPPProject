@@ -5,11 +5,8 @@ LDFLAGS =
 PROG = test
 FILE = sequence.fasta
 FILE2 = ara.fasta
-FILE3 = Arabidopsis.fasta
 FILE4 = sequence2.fastq
 FILE5 = run2.fastq
-FILE6 = run7.fastq
-FILE7 = sequenceTEST.fasta
 
 #  EncodedSequences.cpp
 SOURCES = \

@@ -5,7 +5,9 @@
 
 
 class EncodedSequence{
-private:
+
+
+    private:
     size_t n; //taille sequence
     size_t N; // Taille de la séquence en Bytes
     char * t; //tableau
@@ -15,7 +17,7 @@ private:
     static size_t getPosByte(size_t i);
     
 
-public:
+    public:
     //constructeurs
     EncodedSequence();
     EncodedSequence(size_t n=0);
