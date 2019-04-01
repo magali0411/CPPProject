@@ -8,9 +8,8 @@ using namespace std;
 
 
 EncodedSequence::EncodedSequence(size_t n):
-n(0), N(n ? getByte(n)+1:0), t(N ? new char[N]:NULL) {
-
-}
+n(0), N(n ? getByte(n)+(1%4 !=0):0), t(N ? new char[N]:NULL) {
+} // On établit N et on rajoute +1 seulement si nécéssaire
 
 EncodedSequence::EncodedSequence(const EncodedSequence &es):
 n(es.n),N(n ? getByte(n)+1:0),t(N ? new char[N]:NULL) {
@@ -43,7 +42,7 @@ void EncodedSequence::clear(){
 }
 
 void EncodedSequence::reserve(size_t n){
-    size_t N=getByte(n)+1;
+    size_t N=getByte(n)+(1%4 != 1) ;
     if(N > this->N){ //si N est plus grand que la taille actuelle reservée pour ma séquence
         char *t = new char [N];
         copy(this->t , this->t+this->N,t); // Copie de notre séquence encodée dans un new tab t

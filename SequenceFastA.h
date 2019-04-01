@@ -25,6 +25,7 @@ class SequenceFastA : public SequenceFastX
 	// Destructeur
 	~SequenceFastA();
 
+	//surcharge 2S
 
 };
 

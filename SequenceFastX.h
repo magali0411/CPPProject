@@ -78,6 +78,7 @@ class SequenceFastX{
     void toStream(std::ostream &os) const;
 
     // Méthode calcul GC
+    double GC(std::string & seq) const;
 
     // reverse sequence 
     std::string seqReverse(const std::string &seq) const;

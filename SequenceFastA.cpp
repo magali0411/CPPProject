@@ -21,4 +21,3 @@ SequenceFastA::SequenceFastA(){}
 SequenceFastA::~SequenceFastA(){}
 
 
-

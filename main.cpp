@@ -29,11 +29,15 @@ int main(int argc, char ** argv)
 
 
 		SequenceFastQ * s1 = new SequenceFastQ(*f1.getSequence(2));
-		std::cout << (*(s1)).getFile()<< std::endl;
+		//std::cout << (*(s1)).getFile()<< std::endl;
 		std::cout << f1 << std::endl;
-		std::cout << (*(s1)).getSeq()<< std::endl;
+		//std::cout << (*(s1)).getSeq()<< std::endl;
+		std::string ss =  (*(s1)).getSeq();
 		
-		std::cout << (*(s1)).getScore()<< std::endl;
+		//std::cout << (*(s1)).GC(ss)<< std::endl;
+
+
+		std::cout << *(s1) << std::endl;
 
 
 

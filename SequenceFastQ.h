@@ -32,6 +32,10 @@ class SequenceFastQ : public SequenceFastX
 	//Specialisation getSeq, récupère le score en même temps
 	std::string getSeq();
 
+	//surcharge 2S
+	void toStream(std::ostream &os) const;
+
+
 
 }
 ;

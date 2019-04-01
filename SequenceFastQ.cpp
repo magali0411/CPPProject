@@ -107,6 +107,13 @@ string SequenceFastQ::getSeq() {
 
 }
 
+void SequenceFastQ::toStream(ostream &os) const{
+    SequenceFastX::toStream(os);
+    cout << "Score qualité : "<< m_score << endl;
+
+}
+
+
 /*
 
     ifstream ifs(m_file,ios_base::in);

@@ -35,7 +35,7 @@ bool StringNotSeq(const string &s)
 
     for(size_t i = 0; i<s.size(); i++) {
 
-        if (!(isNucl(s[i])))
+        if ((!(isNucl(s[i]))) || (s[i] == 'N'))
         {
 
             if(s[i] != '\n' || s[i] != ' ') {
@@ -65,7 +65,7 @@ char* myStrDup (const char* s){ //permet de faire une copie d'un tableau de char
 
 
 //StringDup
-char* myStringDup (const string str){ //permet de faire une copie d'un tableau de char
+char* myStringDup (const string str){ //permet de faire une copie d'un string dans un char
     char* res=NULL;
     size_t n = str.length() + 1;
     res = new char[n];

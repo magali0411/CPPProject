@@ -74,7 +74,7 @@ int main(int argc, char ** argv){
 	// TCGA
 
 
-	string sequence = "ATCGATTA";
+	string sequence = "ATCACTTA";
 	size_t n = sequence.length();
 
 	// Création d'un vecteur
@@ -138,7 +138,6 @@ int main(int argc, char ** argv){
    char L[n+1];
 
 
-
     for(size_t i=0 ; i<n+1 ; ++i){
     	F[i] = BWTr[i][0];
     	L[i] = BWTr[i][n];
@@ -147,7 +146,7 @@ int main(int argc, char ** argv){
 
     cout << " Colonne F " << endl;
     for(size_t i=0 ; i<n+1 ; ++i){
-    	cout << L[i] ; 
+    	cout << F[i] ; 
     }
 
     cout << endl;

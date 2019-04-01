@@ -185,7 +185,7 @@ void SequenceFastX::toStream(ostream &os) const{
         os << "File: " << "<no name>" << endl;
     }
     os << "Informations: " << m_head << endl;
-    os <<"Fichier mère: " << m_file << endl;
+    os <<"Source file: " << m_file << endl;
 }
 
 // Sequence
@@ -266,6 +266,23 @@ string SequenceFastX::seqReverse(const std::string &seq) const
     }
     return rev;
 }
+
+// taux GC
+double SequenceFastX::GC(string &seq) const{
+
+    double txGC(0);
+
+    for(size_t i = 0 ; i <= m_size; ++i) {
+        
+        if (seq[i] == 'G' || seq[i] == 'C'){
+            txGC ++; 
+        }
+    }
+
+    return ((txGC /m_size) *100);
+
+}
+
 
 // Encoded sequence
 
