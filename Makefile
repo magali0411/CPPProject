@@ -51,9 +51,9 @@ SequenceFastA.o: SequenceFastA.cpp SequenceFastA.h SequenceFastX.h
 
 SequenceFastQ.o: SequenceFastQ.cpp SequenceFastQ.h SequenceFastX.h
 
-SequenceFastX.o: SequenceFastX.cpp SequenceFastX.h EncodedSequence.h
+SequenceFastX.o: SequenceFastX.cpp SequenceFastX.h EncodedSequence.h 
 
-EncodedSequence.o: EncodedSequence.cpp EncodedSequence.h
+EncodedSequence.o: EncodedSequence.cpp EncodedSequence.h 
 
 
 utilities.o: utilities.cpp utilities.h

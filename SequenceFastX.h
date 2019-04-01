@@ -9,6 +9,8 @@
 class FastXFile;
 class EncodedSequence;
 
+
+
 class SequenceFastX{
 
     // ATTRIBUTS

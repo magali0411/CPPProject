@@ -436,7 +436,6 @@ if(p < nb) {
 		while ((p < nb) && (isSpace(buffer[p]))){ 
 			++offset;
 			updateBuffer(ifs, buffer, BufferSize, p, nb);
-		// C toujours égal au début de ligne
 		} 
 //////////////////////////////////////////////////////
 		//c = buffer[p];
@@ -448,16 +447,18 @@ if(p < nb) {
 			case 0: {
 
 				l = 0;
-				cout << "reinitialisation " << endl;
 
 				if (buffer[p] == '@' || buffer[p] =='>' || buffer[p]==';') {
 
 					m_position[m_nbSeq++] = offset;
+
 					while ((p < nb) && (buffer[p] != '\n')) {
 						updateBuffer(ifs, buffer, BufferSize, p, nb);
 						++offset;
 					}
+
 					if((p < nb) && (buffer[p])== '\n'){
+						//++offset;
 						etat = 1;
 					} else {
 						etat = 4;
@@ -491,6 +492,7 @@ if(p < nb) {
 					while ((p < nb) && (buffer[p] != '\n')) {
 						l += isNucl(buffer[p]);
 						updateBuffer(ifs, buffer, BufferSize, p, nb);
+						++ offset;
 					}
 
 				}
@@ -509,7 +511,7 @@ if(p < nb) {
 					updateBuffer(ifs, buffer, BufferSize, p, nb);
 					etat = 3;
 
-				} 
+				} else { cout << "bug" << endl;} 
 			}
 			case 3: {
 				while ((p < nb) && l > 0) {
@@ -563,7 +565,7 @@ if(p < nb) {
 bool FastXFile::seqCheck(size_t posheader) const{
 
 	ifstream ifs(m_filename,ios_base::in);
-	char c = '\0';
+	char c;
 	bool format(false);
 	if (ifs) {
 		if (posheader < 0) {
@@ -571,18 +573,18 @@ bool FastXFile::seqCheck(size_t posheader) const{
 			throw string("Out of range");
 
 		} else {
+
 			ifs.seekg(posheader);
+			c = ifs.peek();
+			cout << c << endl;
 
-			while(c!= '\n'){
-				c = ifs.peek();
-			}
 
-			// Si un espace est avant la sequence
-/*			while (ifs && (isSpace(ifs.peek()))){ 
+			while (ifs && (isSpace(ifs.peek()))){ 
 				c = ifs.get();
-			} */
+			} 
 
 			c = ifs.peek();
+
 
 			// fastA
 			if (m_format == FASTA && (c == ';' || c == '>'))
@@ -595,6 +597,7 @@ bool FastXFile::seqCheck(size_t posheader) const{
 				format = true;
 
 			} else {
+				cout << " char : " << c << endl;
 				throw string("Format not supported");
 			}
 		}

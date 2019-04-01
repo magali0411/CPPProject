@@ -30,7 +30,6 @@ class FastXFile {
         //Méthodes internes
         void myparse();
         void setFormat(Format format);
-        bool seqCheck(size_t posheader) const;
 
 
     public:
@@ -42,6 +41,7 @@ class FastXFile {
         //char operator[](size_t i) const ;
         friend std::ostream& operator<<(std::ostream &os, const FastXFile &f); 
 
+        bool seqCheck(size_t posheader) const;
 
         //destructeur 
         ~FastXFile();

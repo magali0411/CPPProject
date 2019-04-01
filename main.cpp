@@ -11,6 +11,8 @@
 #include <iostream>
 
 
+
+
 int main(int argc, char ** argv)
 {
 
@@ -26,14 +28,19 @@ int main(int argc, char ** argv)
 		std::cout << f1.getFormat() << std::endl;
 
 
-		SequenceFastX * s1 = new SequenceFastX(*f1.getSequence(2));
+		SequenceFastQ * s1 = new SequenceFastQ(*f1.getSequence(2));
 		std::cout << (*(s1)).getFile()<< std::endl;
 		std::cout << f1 << std::endl;
+		std::cout << (*(s1)).getSeq()<< std::endl;
+		
+		std::cout << (*(s1)).getScore()<< std::endl;
+
+
 
 		delete s1;
 
-/*
-		SequenceFastQ * sq = new SequenceFastQ(*s1);
+
+/*		SequenceFastQ * sq = new SequenceFastQ(*s1);
 		//std::cout << (*sq).Score() << std::endl;
 
 		std::string seq = (*sq).getSeq();

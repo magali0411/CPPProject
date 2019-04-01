@@ -9,7 +9,7 @@ class SequenceFastQ : public SequenceFastX
 {
 	public :
 
-	const char* m_score;
+	char* m_score;
 
 
 	public :
@@ -26,7 +26,7 @@ class SequenceFastQ : public SequenceFastX
 
 	//Getters & setters
 	void setScore(const std::string &s);
-	const char* getScore() const;
+	char* getScore() const;
 	//std::string SequenceFastQ::Score() const {
 
 	//Specialisation getSeq, récupère le score en même temps

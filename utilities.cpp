@@ -62,3 +62,15 @@ char* myStrDup (const char* s){ //permet de faire une copie d'un tableau de char
     }
     return res;
 }
+
+
+//StringDup
+char* myStringDup (const string str){ //permet de faire une copie d'un tableau de char
+    char* res=NULL;
+    size_t n = str.length() + 1;
+    res = new char[n];
+    for (size_t i=0; i<n; ++i){
+        res[i]=str[i];
+    } 
+    return res;
+}

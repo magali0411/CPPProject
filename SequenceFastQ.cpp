@@ -42,13 +42,16 @@ void SequenceFastQ::setScore(const string &s)
 	{
 		delete [] m_score;
 	}
-	m_score = s.c_str();
+
+    m_score= myStringDup(s);
+
 }
 
 
-const char* SequenceFastQ::getScore() const{
+char* SequenceFastQ::getScore() const{
 
     return m_score;
+
 }
 
 
@@ -91,7 +94,6 @@ string SequenceFastQ::getSeq() {
                 score += c;
             }
         }
-
         setScore(score);
 
 
