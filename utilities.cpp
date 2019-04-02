@@ -27,6 +27,16 @@ bool isNucl(char c)
         || (c == 'N') || (c == 'n'));
 }
 
+//rev nucl
+char revNucl(const char c) {
+    if(c=='A') { return 'T';}
+    if(c=='T') { return 'A';}
+    if(c=='C') { return 'G';}
+    if(c=='G') { return 'C';}
+    throw " Error, notnucl";
+}
+
+
 // Not nucl
 bool StringNotSeq(const string &s)
 {
