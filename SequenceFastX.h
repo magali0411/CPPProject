@@ -75,7 +75,7 @@ class SequenceFastX{
     // Methodo
 
     //Tostream
-    void toStream(std::ostream &os) const;
+    virtual void toStream(std::ostream &os) const;
 
     // Méthode calcul GC
     double GC(std::string & seq) const;
@@ -89,6 +89,7 @@ class SequenceFastX{
     //Sequence encodée
     EncodedSequence EncodeSeq() const;
 
+    //virtual void testMethode() const = 0;
 
 };
 

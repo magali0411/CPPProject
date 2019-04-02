@@ -23,7 +23,7 @@ FastXFile::FastXFile(const char* f):
     m_taille(NULL),
     m_nbSeq(0) 
 {
-    setFilename(f); 
+    setFilename(f);
 }
 
 //constructeur par copie 

@@ -16,28 +16,55 @@
 int main(int argc, char ** argv)
 {
 
+	// SequenceFastA ta;
+	// SequenceFastQ tq;
+	// std::cout << "TA:";
+	// ta.testMethode();
+	// std::cout << "TQ:";
+	// tq.testMethode();
+
+
+	// SequenceFastX *ptr;
+
+	// ptr = &ta;
+	// std::cout << "TA:";
+	// ptr->testMethode();
+
+	// ptr = &tq;
+	// std::cout << "TQ:";
+	// ptr->testMethode();
+
+	// return 0;
+
 	try {
-	
-		//const char * file = argv[1];
-		//const char* file = malloc(sizeof(argv[1] +1));
+
 		FastXFile f1(argv[1]);
-		//f1.setFilename(file);
+
+		//f1.setFilename(argv[1]);
 	
 		//size_t i = 1;
 
-		std::cout << f1.getFormat() << std::endl;
+		SequenceFastX * s1 = f1.getSequence(2);
 
+		std::cout <<"Format détécté : " << f1.getFormat() << std::endl;
 
-		SequenceFastQ * s1 = new SequenceFastQ(*f1.getSequence(2));
 		//std::cout << (*(s1)).getFile()<< std::endl;
 		std::cout << f1 << std::endl;
 		//std::cout << (*(s1)).getSeq()<< std::endl;
+
 		std::string ss =  (*(s1)).getSeq();
-		
+
+		std::cout << (*(s1)).seqReverse(ss) << std::endl;
 		//std::cout << (*(s1)).GC(ss)<< std::endl;
 
 
-		std::cout << *(s1) << std::endl;
+		//std::cout << *(s1) << std::endl;
+		//(*(s1)).toStream(std::cout);
+
+		std::cout << "----------- ENCODE ------------- "<< std::endl;
+		EncodedSequence es = (*s1).EncodeSeq();
+		std::cout << es.reverseComplement() << std::endl;
+
 
 
 
@@ -99,7 +126,7 @@ int main(int argc, char ** argv)
 		//delete [] file;
 
 	} catch (std::string &e) {
-		std::cerr << e << std::endl;
+		std::cerr << "ERREUR:" << e << std::endl;
 	}
 
 }

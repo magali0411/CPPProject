@@ -14,6 +14,11 @@ class SequenceFastQ : public SequenceFastX
 
 	public :
 
+
+	//operateur affichage
+    friend std::ostream& operator<<(std::ostream &os, const SequenceFastQ &s); 
+
+
 	//Constructeur 
 	SequenceFastQ();
 	SequenceFastQ(const char* &f, const size_t pos, size_t size, std::string head);
@@ -33,9 +38,9 @@ class SequenceFastQ : public SequenceFastX
 	std::string getSeq();
 
 	//surcharge 2S
-	void toStream(std::ostream &os) const;
+    virtual void toStream(std::ostream &os) const;
 
-
+	//virtual void testMethode() const;
 
 }
 ;

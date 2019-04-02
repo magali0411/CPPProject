@@ -1,6 +1,6 @@
 #VAR
 CXX = g++ 
-CXX_FLAGS = -std=c++11 -Wall -ansi -pedantic
+CXX_FLAGS = -std=c++11 -Wall -ansi -pedantic -g -O0
 LDFLAGS =
 PROG = test
 FILE = sequence.fasta
@@ -62,7 +62,7 @@ utilities.o: utilities.cpp utilities.h
 
 #Execution
 run :
-	./$(PROG) $(FILE)
+	./$(PROG) $(FILE5)
 
 # Suppression des .o
 

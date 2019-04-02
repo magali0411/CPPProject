@@ -4,6 +4,7 @@
 
 
 #include "EncodedSequence.h"
+#include "utilities.h"
 using namespace std;
 
 
@@ -54,9 +55,9 @@ void EncodedSequence::reserve(size_t n){
 
 size_t EncodedSequence::getByte(size_t i){
     return i ? (i-1)>>2:0;
-} // Décalage de deux vers la gauche du nombre de nucl de notre séquence
+} // Décalage de deux vers la gauche de i 
 // Cela équivaut à diviser par 4 sa taille et donc obtenir la taille
-// nécessaire pour stocker la séquence 
+// nécessaire pour stocker 
 
 size_t EncodedSequence::getPosByte(size_t i){
     return i ? (i-1)&3:0;
@@ -119,9 +120,9 @@ ostream& operator<<(ostream &os, const EncodedSequence &es)
 
 EncodedSequence EncodedSequence::operator+=(char c){
     reserve(++n);//  Ré-allocation de mémoire et incrémentation de n
-    char &B = t[getByte(n)];
-    size_t shift = ((3-getPosByte(n))<<1);
-    B |= (encode(c)<<shift);
+    char &B = t[getByte(n)];// Position
+    size_t shift = ((3-getPosByte(n))<<1); // Décalage
+    B |= (encode(c)<<shift); // Encodage
     return *this;
 
 }// ajout rapide d'un char 
@@ -134,13 +135,10 @@ EncodedSequence EncodedSequence::reverseComplement() const {
     char c;
     char g;
 
-    for(size_t p =0; p<= n; ++p){
+    for(size_t p =0; p <= n; p++){
 
         c = ref[n-p];
-        if (c == 'A') { g ='T';}
-        else if (c == 'T') { g ='A';}
-        else if (c == 'G') { g ='C';}
-        else{ g = 'G';}
+        g = revNucl(c);
         es.setNucl(p,g);
     }
 

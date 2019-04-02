@@ -107,11 +107,24 @@ string SequenceFastQ::getSeq() {
 
 }
 
+//operateur affichage
+ostream& operator<<(ostream &os, const SequenceFastQ &s)
+ {
+    s.toStream(os);
+    return os;
+ } 
+
+
 void SequenceFastQ::toStream(ostream &os) const{
     SequenceFastX::toStream(os);
     cout << "Score qualité : "<< m_score << endl;
 
 }
+
+
+// void SequenceFastQ::testMethode() const {
+//     cout << __FILE__ << ":" << __LINE__ << ":" << __FUNCTION__ << ":" << "Coucou" << endl;
+// }
 
 
 /*

@@ -163,15 +163,17 @@ int main(int argc, char ** argv){
 
     cout << "---ALPHABET---" << endl;
 
-    vector<char> alphabet;
-    vector<size_t> ind;
+    vector<char> alphabet (0);
+    vector<size_t> ind (0);
 
     alphabet.push_back('$');
     ind.push_back(0);
     char c;
-    size_t t;
+    size_t t = 0;
 
-    for(size_t i=0 ; i<n+1 ; ++i){
+    cout << "vectors created" << endl;
+
+    for(size_t i=0; i<n ; i++){
     	c = L[i];
     	if (c != alphabet[t]){
     		alphabet.push_back(c);
@@ -180,16 +182,20 @@ int main(int argc, char ** argv){
     	}
     }
 
-    for(size_t i=0 ; i<alphabet.size() ; ++i){
+    for(size_t i=0 ; i<=alphabet.size() ; ++i){
     	cout << alphabet[i];
     }
 
     cout << endl;
 
-    for(size_t i=0 ; i<alphabet.size() ; ++i){
+    for(size_t i=0 ; i<=alphabet.size() ; ++i){
     	cout << ind[i];
     }
     cout << endl;
+
+    // Finalement FM INDEX
+
+    cout << "------ FM INDEX ---------" << endl;
 
 
 

@@ -26,6 +26,7 @@ class SequenceFastA : public SequenceFastX
 	~SequenceFastA();
 
 	//surcharge 2S
+	//virtual void testMethode() const;
 
 };
 

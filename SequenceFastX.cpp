@@ -227,27 +227,7 @@ string SequenceFastX::seqCompl(const string &seq) const
 
     for(size_t i=0; i<size ;i++) {
 
-        switch(seq[i])
-        {
-        case'A' :
-            res.push_back('T') ;
-            break;
-
-        case'T' :
-            res.push_back('A') ;
-            break;
-
-        case'C' :
-            res.push_back('G') ;
-            break;
-
-        case'G' :
-            res.push_back('C') ;
-            break;
-        default :
-            res.push_back('-');
-            break;
-        }
+        res.push_back(revNucl(seq[i]));
     }   
 
     return res;
