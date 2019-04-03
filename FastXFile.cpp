@@ -334,7 +334,7 @@ if(p < nb) {
 							break;
 						} else {
 							if (buffer[p+1] != entete[cpt]) { //modif
-							cout << "TADAM " << endl;
+							cout << "TADAM : " << buffer[p+1] <<  endl;
 							file_error_message(m_filename, ligne + 1, colonne + 1, buffer[p]);
 							}
 						}
@@ -669,7 +669,7 @@ SequenceFastX * FastXFile::getSequence(size_t i) const{
 		throw "Error in file.";
 	}
 	delete [] name;
-	return seq;
+	return  seq;
 	}
 
 }

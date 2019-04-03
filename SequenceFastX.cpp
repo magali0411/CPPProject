@@ -203,7 +203,7 @@ string SequenceFastX::getSeq() const {
             c = ifs.get();
         }
 
-        for(unsigned int p; p <= m_size; ++p) {
+        for(unsigned int p = 0 ; p <= m_size; ++p) {
             c = ifs.get(); 
             if (isNucl(c)){
                 sequence += c;
@@ -269,19 +269,23 @@ double SequenceFastX::GC(string &seq) const{
 EncodedSequence SequenceFastX::EncodeSeq() const
 {
 
-    size_t l= m_size;
-    EncodedSequence es(l);
-    string sequence = getSeq();
+    //size_t l= m_size;
+    EncodedSequence es(m_size);
+    string sequence = (*this).getSeq();
     char c;
 
     if (StringNotSeq(sequence)) {
         throw "Degenerated alphabet detected. Format non supported.";
     }
-    for(size_t p =0; p< m_size; ++p){
+
+    if( sequence.size() != m_size) {
+        throw "An error occured.";
+    }
+
+    for(size_t p =0; p < m_size; ++p){
 
         c = sequence[p];    
         es.setNucl(p,c);
-            //cout << "------  " << c << endl;
 
     }
 

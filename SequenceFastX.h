@@ -89,7 +89,9 @@ class SequenceFastX{
     //Sequence encodée
     EncodedSequence EncodeSeq() const;
 
-    //virtual void testMethode() const = 0;
+    //virtual void getScore() const = 0;
+
+    virtual void testMethode() const = 0;
 
 };
 

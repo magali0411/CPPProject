@@ -44,31 +44,72 @@ int main(int argc, char ** argv)
 	
 		//size_t i = 1;
 
-		SequenceFastX * s1 = f1.getSequence(2);
+		SequenceFastX * s1 =  f1.getSequence(3);
 
 		std::cout <<"Format détécté : " << f1.getFormat() << std::endl;
 
 		//std::cout << (*(s1)).getFile()<< std::endl;
 		std::cout << f1 << std::endl;
-		//std::cout << (*(s1)).getSeq()<< std::endl;
+
+
 
 		std::string ss =  (*(s1)).getSeq();
+		//(*(s1)).seqReverse(ss);
 
-		std::cout << (*(s1)).seqReverse(ss) << std::endl;
+		std::cout << "Sequence brute : " << std::endl;
+		std::cout << ss << std::endl;
+
 		//std::cout << (*(s1)).GC(ss)<< std::endl;
+
+
+///////////// ENCODEGAE SEQUENCE /////////////////////////////////
 
 
 		//std::cout << *(s1) << std::endl;
 		//(*(s1)).toStream(std::cout);
 
 		std::cout << "----------- ENCODE ------------- "<< std::endl;
+
+
 		EncodedSequence es = (*s1).EncodeSeq();
+
+		std::cout << "Encoded Sequence : "<< std::endl;
+		std::cout << es << std::endl;
+
+		std::cout << "First char : " << es[0] << std::endl;
+
+		std::cout << "Reverted compl Encoded Sequence : "<< std::endl;
+
 		std::cout << es.reverseComplement() << std::endl;
 
 
-
+//////////////////////////////////////////////////////////
 
 		delete s1;
+		
+
+
+///////////// APPEL METHODE SEQX /////////////////////
+
+		// TRanstypage pour arriver à nos fins...
+
+/*		SequenceFastQ * s2;
+		s2 = dynamic_cast<SequenceFastQ *>(s1); 
+
+		std::cout << "T'es cassé ?" << std::endl;
+
+
+		std::cout << s2 -> getScore() << std::endl;
+		std::cout << s2 -> getSeq() << std::endl;
+
+
+		delete s2;
+		*/
+
+
+
+//////////////////////////////////////////////////////
+
 
 
 /*		SequenceFastQ * sq = new SequenceFastQ(*s1);

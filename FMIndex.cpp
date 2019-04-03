@@ -74,7 +74,7 @@ int main(int argc, char ** argv){
 	// TCGA
 
 
-	string sequence = "ATCACTTA";
+	string sequence = "TATCTA";
 	size_t n = sequence.length();
 
 	// Création d'un vecteur
@@ -98,7 +98,7 @@ int main(int argc, char ** argv){
 		}
 
 		//cout << shuffle << endl;
-		seqatri[j] = shuffle[n];
+		seqatri[j] = shuffle[0];
 		BWT[j] = shuffle;
 	}
 
@@ -173,8 +173,8 @@ int main(int argc, char ** argv){
 
     cout << "vectors created" << endl;
 
-    for(size_t i=0; i<n ; i++){
-    	c = L[i];
+    for(size_t i=0; i< n ; i++){
+    	c = F[i];
     	if (c != alphabet[t]){
     		alphabet.push_back(c);
     		++t;
@@ -182,13 +182,13 @@ int main(int argc, char ** argv){
     	}
     }
 
-    for(size_t i=0 ; i<=alphabet.size() ; ++i){
+    for(size_t i=0 ; i< alphabet.size() ; ++i){
     	cout << alphabet[i];
     }
 
     cout << endl;
 
-    for(size_t i=0 ; i<=alphabet.size() ; ++i){
+    for(size_t i=0 ; i< alphabet.size() ; ++i){
     	cout << ind[i];
     }
     cout << endl;

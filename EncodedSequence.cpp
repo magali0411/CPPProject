@@ -9,7 +9,7 @@ using namespace std;
 
 
 EncodedSequence::EncodedSequence(size_t n):
-n(0), N(n ? getByte(n)+(1%4 !=0):0), t(N ? new char[N]:NULL) {
+n(0), N(n ? getByte(n)+1:0), t(N ? new char[N]:NULL) {
 } // On établit N et on rajoute +1 seulement si nécéssaire
 
 EncodedSequence::EncodedSequence(const EncodedSequence &es):
@@ -43,7 +43,7 @@ void EncodedSequence::clear(){
 }
 
 void EncodedSequence::reserve(size_t n){
-    size_t N=getByte(n)+(1%4 != 1) ;
+    size_t N=getByte(n)+ 1;    //(1%4 != 1) ;
     if(N > this->N){ //si N est plus grand que la taille actuelle reservée pour ma séquence
         char *t = new char [N];
         copy(this->t , this->t+this->N,t); // Copie de notre séquence encodée dans un new tab t
@@ -55,13 +55,12 @@ void EncodedSequence::reserve(size_t n){
 
 size_t EncodedSequence::getByte(size_t i){
     return i ? (i-1)>>2:0;
-} // Décalage de deux vers la gauche de i 
-// Cela équivaut à diviser par 4 sa taille et donc obtenir la taille
-// nécessaire pour stocker 
+} // Décalage de deux vers la gauche de la valeur i
+// Cela équivaut à diviser par 4 
 
 size_t EncodedSequence::getPosByte(size_t i){
     return i ? (i-1)&3:0;
-} // masquage des bits autour du nucléotide demandé
+} // Récupère les valeur = 1 à la position i
 
 char EncodedSequence::encode(char c) const {
     return(((c=='a')||(c=='A'))
@@ -100,13 +99,13 @@ void EncodedSequence::setNucl(size_t i, char c) {
         n=i;
     }// taile seq
     char &b = t[getByte(i)]; // adresse de l'octet dans lequel on va stocker le nucléotide
-    size_t shift = ((3-getPosByte(i))<<1); //Décalage 
-    b &= ~(3<<shift); // L'adresse dans l'octet est décalée
-    b |= (encode(c)<<shift); // on encode c à l'adresse B au bon décalage
+    size_t shift = ((3-getPosByte(i))<<1); //Cacul du shift 
+    b &= ~(3<<shift); // inverse de (11 décalé de shift) à l'adresse dans l'octet = On le vide
+    b |= (encode(c)<<shift); // on encode c à l'adresse B au bon décalage !!
 }
 
 void EncodedSequence::toStream(std::ostream &os) const {
-    for (size_t i=1; i<=n ; i++){
+    for (size_t i=0; i<=n ; i++){
         os<< (*this)[i];
     }
 }
@@ -115,7 +114,7 @@ void EncodedSequence::toStream(std::ostream &os) const {
 ostream& operator<<(ostream &os, const EncodedSequence &es)
 {
     es.toStream(os);
-    return os;
+    return os; 
 } 
 
 EncodedSequence EncodedSequence::operator+=(char c){

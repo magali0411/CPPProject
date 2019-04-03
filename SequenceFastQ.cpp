@@ -59,7 +59,7 @@ char* SequenceFastQ::getScore() const{
 
 string SequenceFastQ::getSeq() {
 
-    cout << " file : " << m_file << endl;
+    cout << " Methode appelé sur " <<  __FILE__<< m_file << endl;
     ifstream ifs(m_file,ios_base::in);
     string sequence;
     string score;
@@ -122,9 +122,9 @@ void SequenceFastQ::toStream(ostream &os) const{
 }
 
 
-// void SequenceFastQ::testMethode() const {
-//     cout << __FILE__ << ":" << __LINE__ << ":" << __FUNCTION__ << ":" << "Coucou" << endl;
-// }
+ void SequenceFastQ::testMethode() const {
+     cout << __FILE__ << ":" << __LINE__ << ":" << __FUNCTION__ << ":" << "Coucou" << endl;
+ }
 
 
 /*
