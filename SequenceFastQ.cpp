@@ -121,10 +121,10 @@ void SequenceFastQ::toStream(ostream &os) const{
 
 }
 
-
+/*
  void SequenceFastQ::testMethode() const {
      cout << __FILE__ << ":" << __LINE__ << ":" << __FUNCTION__ << ":" << "Coucou" << endl;
- }
+ }*/
 
 
 /*

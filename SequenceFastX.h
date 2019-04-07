@@ -25,35 +25,30 @@ class SequenceFastX{
 
 
     public :
+    void clear();
+    virtual ~SequenceFastX() ;
 
     // Constructeur
     SequenceFastX();
     SequenceFastX(const char* &f, const size_t pos, size_t size, std::string head);
     SequenceFastX(const SequenceFastX &seq);
 
+    //Destruction
 
-    //operateur de copie
+
+    //operateurs
     SequenceFastX &operator=(const SequenceFastX &seq);
-
-    //operteur << 
     friend std::ostream& operator<<(std::ostream &os, const SequenceFastX &s); 
 
 
-    // clear 
-    void clear();
-
-    //Destructeur 
-    virtual ~SequenceFastX() ;
-
-
-    // SETTERS & GETTERS 
+    //Méthodes
 
     //nom de la séquence
     char* getName() const;
     void setName(const char*);
 
 
-    //séquence nucléotidique
+    // Affichage séquence nucléotidique
     virtual std::string getSeq() const ;
 
     // Retourne les infos relatives à une séquence aka l'header
@@ -72,12 +67,10 @@ class SequenceFastX{
     size_t getPosition() const;
     void setPosSeq(const size_t pos);
 
-    // Methodo
+    //Création objet encodée
+    EncodedSequence EncodeSeq() const;
 
-    //Tostream
-    virtual void toStream(std::ostream &os) const;
-
-    // Méthode calcul GC
+    // Calcul taux GC
     double GC(std::string & seq) const;
 
     // reverse sequence 
@@ -86,12 +79,10 @@ class SequenceFastX{
     // complement sequence
     std::string seqCompl(const std::string &seq) const;
 
-    //Sequence encodée
-    EncodedSequence EncodeSeq() const;
+    //Tostream
+    virtual void toStream(std::ostream &os) const ;
 
-    //virtual void getScore() const = 0;
-
-    virtual void testMethode() const = 0;
+    //virtual void testMethode() const = 0;
 
 };
 

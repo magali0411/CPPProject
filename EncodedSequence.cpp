@@ -89,7 +89,7 @@ char EncodedSequence::operator[](size_t i) const {
         throw "out of boundaries"; 
     }
     char c=t[getByte(i)]; // recupere l'octet dans lequel se trouve notre nucléotide i
-    c>>=(3-getPosByte(i))<<1; // 11 - (nucl/2)
+    c>>=(3-getPosByte(i))<<1; // 11 - nucl 
     return decode(c&3); // Masquage 
 }
 
@@ -134,7 +134,7 @@ EncodedSequence EncodedSequence::reverseComplement() const {
     char c;
     char g;
 
-    for(size_t p =0; p <= n; p++){
+    for(size_t p =0; p <= n; ++p){
 
         c = ref[n-p];
         g = revNucl(c);
@@ -142,4 +142,4 @@ EncodedSequence EncodedSequence::reverseComplement() const {
     }
 
     return es;
-} // Un peu cassée, mais l'idée est là
+} // Un peu cassée

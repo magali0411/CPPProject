@@ -3,14 +3,6 @@
 
 using namespace std;
 
-enum
-{
-    BASE_A = 0x0, /* binary: 00 */
-    BASE_T = 0x1, /* binary: 01 */
-    BASE_G = 0x2, /* binary: 10 */
-    BASE_C = 0x3 /* binary: 11 */
-};
-
 
 bool isSpace(char c) {
 	return ((c == ' ') || (c == '\t') || (c == '\r') || (c == '\n') || (c=='\0'));

@@ -164,7 +164,7 @@ static void updateBuffer(ifstream &ifs, char *buffer, size_t bufsize, size_t &p,
 		ifs.read(buffer, bufsize); // On recharge le buffer
 		nb = ifs.gcount(); // prend la valeur du nombre de c du buffer précédent
 		p = 0;
-		cout << "Buffer reloaded" << endl;
+		//cout << "Buffer reloaded" << endl;
 	} // Si on arrive à la fin du buffer
 //	cerr << "Now, p = " << p << " and nb = " << nb << endl;
 }
@@ -240,6 +240,7 @@ if(p < nb) {
 
 ///////////// Saut espace A chauqe début de boucle //////////
 			while ((p < nb) && (isSpace(buffer[p]))){ 
+
 				if (buffer[p] == '\n') {
 					++ligne;
 					colonne = 0;
@@ -251,7 +252,7 @@ if(p < nb) {
 //////////////////////////////////////////////////////
 			c = buffer[p];
 
-			cout << "char currently parsed " << c << ", sate " << etat <<  endl;
+			//cout << "char currently parsed " << c << ", sate " << etat <<  endl;
 
 			switch (etat) {		
 				case 0: {
@@ -265,18 +266,21 @@ if(p < nb) {
 						while ((p < nb) && (buffer[p] != '\n')) { // Tant qu'on parse l'entete
 							entete += buffer[p];
 							updateBuffer(ifs, buffer, BufferSize, p, nb);
+							++ colonne;
 						} // Fin de ligne
 						if(buffer[p] == '\n')
 						{
 							updateBuffer(ifs, buffer, BufferSize, p, nb);
 							etat = 1;
+							colonne = 0;
+							++ ligne;
 						} else {
 							c = ' ';
 							etat = 4;
 							break;
 						}
 
-						cout << "ENTETE: " << entete << endl;
+						//cout << "ENTETE: " << entete << endl;
 
 
 					} else {
@@ -309,8 +313,9 @@ if(p < nb) {
 						while ((p < nb) && (buffer[p] != '\n')) { // Tant qu'on est dans la ligne
 							l1 += isNucl(buffer[p]);
 							updateBuffer(ifs, buffer, BufferSize, p, nb);
+							++ colonne;
 						} 
-						cout << "LENGTH :" << l1 << endl;
+						//cout << "LENGTH :" << l1 << endl;
 /*						if(buffer[p] == '\n') 
 						{
 							updateBuffer(ifs, buffer, BufferSize, p, nb);
@@ -324,6 +329,8 @@ if(p < nb) {
 					//cerr << "state : " << etat << endl;
 					//cerr << "c :" << c << "buff : " << buffer[p] << endl;
 					updateBuffer(ifs, buffer, BufferSize, p, nb);
+					//colonne = 0;
+					//++ ligne ;
 
 					break;
 				}
@@ -340,11 +347,14 @@ if(p < nb) {
 						}
 						++cpt;
 						updateBuffer(ifs, buffer, BufferSize, p, nb);
+						++ colonne;
 						//c = buffer[p+1];
 
 					}
 					if(p < nb && ((buffer[p+1] == '\n') || buffer[p] == '\n')) {
 						updateBuffer(ifs, buffer, BufferSize, p, nb);
+						colonne = 0;
+						++ ligne;
 						etat = 3;
 					}
 					else {
@@ -360,13 +370,16 @@ if(p < nb) {
 						score += buffer[p];
 						l2 += !isSpace(buffer[p]);
 						updateBuffer(ifs, buffer, BufferSize, p, nb);
+						++ colonne;
 						
 					}
-					cout << "SCORE : " << score << endl;
-					cout << "FINALE LENGTH :" << l2 << endl;
+					//cout << "SCORE : " << score << endl;
+					//cout << "FINALE LENGTH :" << l2 << endl;
 					
 					if (buffer[p] == '\n') {
 						updateBuffer(ifs, buffer, BufferSize, p, nb);
+						colonne = 0;
+						++ ligne;
 						etat = 0;
 					} else {
 						c = ' ';
@@ -378,7 +391,7 @@ if(p < nb) {
 				}
 				case 4: {
 					cout << "-----------------------" << endl;
-					cout << "END OF FILE" << endl;
+					cout << "END OF FILE N°1" << endl;
 					cout << "-----------------------" << endl;
 					end = true;
 					break;
@@ -411,6 +424,8 @@ if(p < nb) {
 
 		} while(p <= nb && !end);
 
+		cout << "Fin du fichier : " << ligne <<  " lignes et "<< colonne << " colonnes." << endl;
+
 		//updateBuffer(ifs, buffer, BufferSize, p, nb);
 /*		cout << "p : " << p << " nb : " << nb << endl;
 		cout << "case " << etat << endl;
@@ -441,8 +456,8 @@ if(p < nb) {
 		} 
 //////////////////////////////////////////////////////
 		//c = buffer[p];
-		cout << "Etat en début de boucle : " << etat << endl;
-		cout << "Char en début de boucle : " << buffer[p] << endl;
+		//cout << "Etat en début de boucle : " << etat << endl;
+		//cout << "Char en début de boucle : " << buffer[p] << endl;
 		//cout << "char début de ligne : " << c << endl;
 
 		switch (etat) { // On ne refait pas toute nos vérifs pour alléger le code
@@ -498,7 +513,7 @@ if(p < nb) {
 					}
 
 				}
-				cout << "LONGUEUR SEQ : " << l << endl;
+				//cout << "LONGUEUR SEQ : " << l << endl;
 				m_taille[m_nbSeq-1] = l;
 				break;
 			}
@@ -538,7 +553,7 @@ if(p < nb) {
 			}
 			case 4: {
 				cout << "-----------------------" << endl;
-				cout << "END OF FILE" << endl;
+				cout << "END OF FILE N°2" << endl;
 				cout << "-----------------------" << endl;
 				end = true;
 				break;
@@ -578,8 +593,7 @@ bool FastXFile::seqCheck(size_t posheader) const{
 
 			ifs.seekg(posheader);
 			c = ifs.peek();
-			cout << c << endl;
-
+			//cout << c << endl;
 
 			while (ifs && (isSpace(ifs.peek()))){ 
 				c = ifs.get();
@@ -599,12 +613,10 @@ bool FastXFile::seqCheck(size_t posheader) const{
 				format = true;
 
 			} else {
-				cout << " char : " << c << endl;
+				//cout << " char : " << c << endl;
 				throw string("Format not supported");
 			}
 		}
-
-		// Rajouter une boucle pour check si il y'a des nucléotides
 
 		ifs.close();
 

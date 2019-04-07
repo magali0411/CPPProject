@@ -5,10 +5,10 @@
 #include "SequenceFastX.h"
 
 
-class SequenceFastA : public SequenceFastX
+class SequenceFastA : virtual public SequenceFastX
 {
 
-	private :
+	protected :
 
 
 	public :
@@ -25,8 +25,9 @@ class SequenceFastA : public SequenceFastX
 	// Destructeur
 	~SequenceFastA();
 
-	//surcharge 2S
-	virtual void testMethode() const;
+
+	//surcharge 
+	//virtual void testMethode() const;
 
 };
 

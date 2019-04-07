@@ -27,20 +27,21 @@ class EncodedSequence{
     ~EncodedSequence();
     void clear();
 
-
+    // Opérateurs
     EncodedSequence &operator=(const EncodedSequence &es);
     char operator[](size_t i) const ;
     EncodedSequence operator+=(char c);
     //EncodedSequence operator()(size_t start, size_t l=(size_t)-1) const;
     friend std::ostream& operator<<(std::ostream &os, const EncodedSequence &es);
 
-
+    // Méthodes
     void setNucl(size_t i, char c);
     void reserve(size_t n);
     EncodedSequence reverseComplement() const;
     char encode(char c) const;
     char decode(char c) const;
 
+    // Tostring
     void toStream (std::ostream &os) const;
         
     }

@@ -13,6 +13,7 @@ class SequenceFastX;
 class FastXFile {
 
     public :
+
     enum Format {
         UNDEF,
         FASTA,
@@ -36,32 +37,35 @@ class FastXFile {
         //constructeurs
         FastXFile(const char* f);
         FastXFile(const FastXFile &f); // constructeur par copie
+
+        //destructeur 
+        ~FastXFile();
+        void clear();
+
+
         //operateurs
         FastXFile &operator=(const FastXFile &f);
         //char operator[](size_t i) const ;
         friend std::ostream& operator<<(std::ostream &os, const FastXFile &f); 
 
+
+        //Méthode
         bool seqCheck(size_t posheader) const;
-
-        //destructeur 
-        ~FastXFile();
-
-        //Getters & Setters
-        size_t getNbSeq() const ;
 
         const char * getFileName() const;
         void setFilename(const char* &f);
 
         std::string getFormat() const;
+        size_t getNbSeq() const ;
 
-        //methodes
-        void toStream(std::ostream &os) const;
-        
-        void clear();
         SequenceFastX * getSequence(size_t i) const;
 
-        void DelReadN();
+        //2S
+        void toStream(std::ostream &os) const;
+        
+
+        void DelReadN(); // Non achevée
 
 }
 ;
-#endif //FASTXFILE_H
+#endif 

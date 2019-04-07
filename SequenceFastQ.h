@@ -5,31 +5,28 @@
 #include "SequenceFastX.h"
 
 
-class SequenceFastQ : public SequenceFastX
+class SequenceFastQ : virtual public SequenceFastX
 {
-	public :
-
+	protected :
 	char* m_score;
 
-
 	public :
-
-
-	//operateur affichage
-    friend std::ostream& operator<<(std::ostream &os, const SequenceFastQ &s); 
 
 
 	//Constructeur 
 	SequenceFastQ();
 	SequenceFastQ(const char* &f, const size_t pos, size_t size, std::string head);
-	// Constructeur par copie
 	SequenceFastQ(const SequenceFastQ &seq);
 	SequenceFastQ(const SequenceFastX &seq);
 
 	// Destructeur
 	 ~SequenceFastQ();
 
-	//Getters & setters
+	//Operateur
+    friend std::ostream& operator<<(std::ostream &os, const SequenceFastQ &s); 
+
+
+    //Méthodes
 	void setScore(const std::string &s);
 	char* getScore() const;
 	//std::string SequenceFastQ::Score() const {
@@ -40,7 +37,7 @@ class SequenceFastQ : public SequenceFastX
 	//surcharge 2S
     virtual void toStream(std::ostream &os) const;
 
-	virtual void testMethode() const;
+	//virtual void testMethode() const;
 
 }
 ;

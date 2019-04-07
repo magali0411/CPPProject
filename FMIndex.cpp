@@ -56,22 +56,12 @@ struct Cmp{ // Comparaison vue en cours
 
 
 
-
 int main(int argc, char ** argv){
 
 
 
 	// On part d'une ES de taille n 
 	// On la décode 
-	// La séquence :
-
-	// ATCG
-	// 0123
-
-	// ATCG
-	// GATC
-	// CGAT
-	// TCGA
 
 
 	string sequence = "TATCTA";
@@ -196,10 +186,6 @@ int main(int argc, char ** argv){
     // Finalement FM INDEX
 
     cout << "------ FM INDEX ---------" << endl;
-
-
-
-
 
 
 

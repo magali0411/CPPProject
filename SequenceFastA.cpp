@@ -21,6 +21,7 @@ SequenceFastA::SequenceFastA(){}
 SequenceFastA::~SequenceFastA(){}
 
 
- void SequenceFastA::testMethode() const {
+/* void SequenceFastA::testMethode() const {
      cout << __FILE__ << ":" << __LINE__ << ":" << __FUNCTION__ << ":" << "Coucou" << endl;
  }
+*/

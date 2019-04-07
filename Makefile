@@ -1,13 +1,12 @@
 #VAR
 CXX = g++ 
-CXX_FLAGS = -std=c++11 -Wall -ansi -pedantic -g -O0
+CXX_FLAGS = -std=c++11 -Wall -ansi -pedantic -g -O3
 LDFLAGS =
 PROG = test
 FILE = sequence.fasta
-FILE2 = ara.fasta
-FILE3 = run7.fastq
-FILE4 = sequence2.fastq
-FILE5 = run2.fastq
+FILE2 = run2.fastq
+FILE_ERROR = sequence2.fastq
+
 
 
 #  EncodedSequences.cpp
@@ -57,12 +56,12 @@ SequenceFastX.o: SequenceFastX.cpp SequenceFastX.h EncodedSequence.h
 
 EncodedSequence.o: EncodedSequence.cpp EncodedSequence.h 
 
-
 utilities.o: utilities.cpp utilities.h
+
 
 #Execution
 run :
-	./$(PROG) $(FILE5)
+	./$(PROG) $(FILE)
 
 # Suppression des .o
 

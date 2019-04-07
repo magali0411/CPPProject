@@ -270,7 +270,7 @@ EncodedSequence SequenceFastX::EncodeSeq() const
 {
 
     //size_t l= m_size;
-    EncodedSequence es(m_size);
+    EncodedSequence es(m_size+1);
     string sequence = (*this).getSeq();
     char c;
 
@@ -282,10 +282,12 @@ EncodedSequence SequenceFastX::EncodeSeq() const
         throw "An error occured.";
     }
 
-    for(size_t p =0; p < m_size; ++p){
+    cout << "sequence : " << sequence << endl;
 
-        c = sequence[p];    
-        es.setNucl(p,c);
+    for(size_t p = 0; p < m_size; ++p){
+
+        c = sequence[p];
+        es.setNucl(p+1,c);
 
     }
 
